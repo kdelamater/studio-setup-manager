@@ -32,19 +32,18 @@ module.exports = async function handler(req, res) {
     } else if (req.method === 'POST') {
         const { currentProject, data } = req.body;
         
-        const artist = data[0] || '';
-        const dates = data[1] || '';
-        const collab = data[2] || '';
-        const asst = data[3] || '';
-        const notes = data[4] || '';
+        const artistAndDates = data[0] || '';
+        const collab = data[1] || '';
+        const asst = data[2] || '';
+        const notes = data[3] || '';
 
         const recordId = data._recordId;
         const rawArray = [...data];
         
         const fields = {
             "Project Name": currentProject,
-            "Artist": typeof artist === 'string' ? artist : '',
-            "Studio Dates": typeof dates === 'string' ? dates : '',
+            "Artist": typeof artistAndDates === 'string' ? artistAndDates : '',
+            "Studio Dates": '',
             "Collaborators": typeof collab === 'string' ? collab : '',
             "Assistants": typeof asst === 'string' ? asst : '',
             "Notes": typeof notes === 'string' ? notes : '',
