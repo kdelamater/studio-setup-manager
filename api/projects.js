@@ -1,5 +1,5 @@
 const baseId = 'appRCHodktJeOp8vm';
-const tableIdOrName = encodeURIComponent('Studio Setups');
+const tableIdOrName = encodeURIComponent('Clean Studio Setups');
 
 module.exports = async function handler(req, res) {
     // Standard Vercel Serverless Function using CommonJS and global fetch (Node 18+)
@@ -30,23 +30,26 @@ module.exports = async function handler(req, res) {
             res.status(500).json({ error: 'Failed to fetch projects' });
         }
     } else if (req.method === 'POST') {
-        const { currentProject, data } = req.body;
+        const { currentProject, data, summaries = {}, recordId } = req.body;
         
         const artistAndDates = data[0] || '';
         const collab = data[1] || '';
         const asst = data[2] || '';
         const notes = data[3] || '';
 
-        const recordId = data._recordId;
         const rawArray = [...data];
         
         const fields = {
             "Project Name": currentProject,
-            "Artist": typeof artistAndDates === 'string' ? artistAndDates : '',
-            "Studio Dates": '',
+            "Artist & Dates": typeof artistAndDates === 'string' ? artistAndDates : '',
             "Collaborators": typeof collab === 'string' ? collab : '',
             "Assistants": typeof asst === 'string' ? asst : '',
             "Notes": typeof notes === 'string' ? notes : '',
+            "Pulp Prep Summary": summaries["Pulp Prep Summary"] || '',
+            "Pigments Summary": summaries["Pigments Summary"] || '',
+            "Techniques Summary": summaries["Techniques Summary"] || '',
+            "Setup Summary": summaries["Setup Summary"] || '',
+            "Moulds & Deckles Summary": summaries["Moulds & Deckles Summary"] || '',
             "Raw JSON": JSON.stringify(rawArray)
         };
 
@@ -78,8 +81,23 @@ module.exports = async function handler(req, res) {
             console.error(err);
             res.status(500).json({ error: 'Failed to save project' });
         }
+    } else if (req.method === 'DELETE') {
+        const { recordId } = req.body;
+        if (!recordId) return res.status(400).json({ error: 'No recordId provided' });
+        
+        try {
+            const response = await fetch(`https://api.airtable.com/v0/${baseId}/${tableIdOrName}/${recordId}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${process.env.AIRTABLE_ACCESS_TOKEN}` }
+            });
+            const result = await response.json();
+            res.status(200).json(result);
+        } catch(err) {
+            console.error(err);
+            res.status(500).json({ error: 'Failed to delete project' });
+        }
     } else {
-        res.setHeader('Allow', ['GET', 'POST']);
+        res.setHeader('Allow', ['GET', 'POST', 'DELETE']);
         res.status(405).end(`Method ${req.method} Not Allowed`);
     }
 };
