@@ -318,7 +318,7 @@
 
                 <div class="print-section">
                     <h2>Pigment & Additives</h2>
-                                    <table>
+                                    <table id="pigmentTable">
                                         <tr>
                                             <th>Needed?</th>
                                             <th>Material</th>
@@ -344,7 +344,7 @@
 
                 <div class="print-section">
                     <h2>Moulds and Deckles</h2>
-                    <table>
+                    <table id="mouldsTable">
                         <tr>
                             <th>Needed?</th>
                             <th>Size</th>
@@ -385,7 +385,7 @@
 
                 <div class="print-section">
                     <h2>Creative Technique Prep</h2>
-                                    <table>
+                                    <table id="techniquesTable">
                                         <tr>
                                             <th>Needed?</th>
                                             <th>Technique</th>
@@ -416,7 +416,7 @@
 
                 <div class="print-section">
                     <h2>Studio Setup</h2>
-                                    <table>
+                                    <table id="setupTable">
                                         <tr>
                                             <th>Needed?</th>
                                             <th>Item</th>
@@ -481,7 +481,7 @@
             }
         }
 
-        async function saveProjectToAPI(name, data) {
+        async function saveProjectToAPI(name, data, summaries = {}) {
             try {
                 if (cachedProjects[name] && cachedProjects[name]._recordId) {
                     data._recordId = cachedProjects[name]._recordId;
@@ -489,7 +489,7 @@
                 const res = await fetch('/api/projects', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ currentProject: name, data })
+                    body: JSON.stringify({ currentProject: name, data, summaries })
                 });
                 if (res.ok) {
                     await fetchProjects();
@@ -608,13 +608,55 @@
                 data._recordId = cachedProjects[currentProject]._recordId;
             }
 
-            cachedProjects[currentProject] = data;
+                        cachedProjects[currentProject] = data;
             
+            function buildSummary(tableId) {
+                const table = document.getElementById(tableId);
+                if (!table) return '';
+                let summary = [];
+                const rows = table.querySelectorAll('.large-check');
+                rows.forEach(row => {
+                    const inputs = row.querySelectorAll('input, select, textarea');
+                    if (inputs.length > 0 && inputs[0].type === 'checkbox' && inputs[0].checked) {
+                        let rowText = [];
+                        const tds = row.querySelectorAll('td');
+                        
+                        if (tableId === 'pulpTable') {
+                            const nameInput = tds[1].querySelector('input');
+                            const name = nameInput ? nameInput.value.trim() : tds[1].innerText.trim();
+                            if (name) rowText.push(name);
+                            
+                            const amount = inputs[1] && inputs[1].type==='text' ? inputs[1].value.trim() : '';
+                            if (amount) rowText.push('(' + amount + ')');
+                            
+                            const notes = inputs[2] ? inputs[2].value.trim() : '';
+                            if (notes) rowText.push('- Note: ' + notes);
+                        } else {
+                            const name = tds[1] ? tds[1].innerText.trim() : '';
+                            if (name) rowText.push(name);
+                            
+                            const notes = inputs[1] ? inputs[1].value.trim() : '';
+                            if (notes) rowText.push('- Note: ' + notes);
+                        }
+                        summary.push('- ' + rowText.join(' '));
+                    }
+                });
+                return summary.join('\n');
+            }
+
+            const summaries = {
+                "Pulp Prep Summary": buildSummary('pulpTable'),
+                "Pigments Summary": buildSummary('pigmentTable'),
+                "Moulds & Deckles Summary": buildSummary('mouldsTable'),
+                "Techniques Summary": buildSummary('techniquesTable'),
+                "Setup Summary": buildSummary('setupTable')
+            };
+
             const btn = document.querySelector('.save');
             const originalText = btn.innerText;
             btn.innerText = 'Saving...';
             
-            await saveProjectToAPI(currentProject, data);
+            await saveProjectToAPI(currentProject, data, summaries);
             
             btn.innerText = originalText;
             alert('Project saved to Airtable!');
