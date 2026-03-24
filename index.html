@@ -481,15 +481,15 @@
             }
         }
 
-        async function saveProjectToAPI(name, data, summaries = {}) {
+        async function saveProjectToAPI(name, data, summaries = {}, recordId = null) {
             try {
-                if (cachedProjects[name] && cachedProjects[name]._recordId) {
-                    data._recordId = cachedProjects[name]._recordId;
-                }
+                const payload = { currentProject: name, data, summaries };
+                if (recordId) payload.recordId = recordId;
+                
                 const res = await fetch('/api/projects', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ currentProject: name, data, summaries })
+                    body: JSON.stringify(payload)
                 });
                 if (res.ok) {
                     await fetchProjects();
@@ -505,13 +505,13 @@
 
         async function deleteProjectToAPI(name) {
             try {
-                if (!cachedProjects[name] || !cachedProjects[name]._recordId) {
+                if (!cachedProjects[name] || !cachedProjects[name].recordId) {
                     delete cachedProjects[name];
                     currentProject = null;
                     renderProjects();
                     return;
                 }
-                const recordId = cachedProjects[name]._recordId;
+                const recordId = cachedProjects[name].recordId;
                 
                 const res = await fetch('/api/projects', {
                     method: 'DELETE',
@@ -558,7 +558,7 @@
             
             const name = artistName + ' - ' + studioDates;
 
-            cachedProjects[name] = [];
+            cachedProjects[name] = { data: [] };
             
             renderProjects();
             loadProject(name);
@@ -571,7 +571,8 @@
 
         function loadProject(name) {
             currentProject = name;
-            const data = cachedProjects[name] || [];
+            const projectObj = cachedProjects[name] || { data: [] };
+            const data = projectObj.data || [];
             const inputs = document.querySelectorAll('input, textarea, select');
 
             inputs.forEach((i, idx) => {
@@ -604,11 +605,12 @@
                 else data.push(i.value);
             });
 
-            if (cachedProjects[currentProject] && cachedProjects[currentProject]._recordId) {
-                data._recordId = cachedProjects[currentProject]._recordId;
+            let recordId = null;
+            if (cachedProjects[currentProject] && cachedProjects[currentProject].recordId) {
+                recordId = cachedProjects[currentProject].recordId;
             }
 
-                        cachedProjects[currentProject] = data;
+            cachedProjects[currentProject] = { data: data, recordId: recordId };
             
             function buildSummary(tableId) {
                 const table = document.getElementById(tableId);
@@ -656,7 +658,7 @@
             const originalText = btn.innerText;
             btn.innerText = 'Saving...';
             
-            await saveProjectToAPI(currentProject, data, summaries);
+            await saveProjectToAPI(currentProject, data, summaries, recordId);
             
             btn.innerText = originalText;
             alert('Project saved to Airtable!');
