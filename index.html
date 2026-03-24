@@ -469,6 +469,7 @@
     <script>
         let currentProject = null;
         let cachedProjects = {};
+        let defaultNumInputs = 0;
 
         async function fetchProjects() {
             try {
@@ -569,10 +570,29 @@
             await saveProject();
         }
 
+        function resetPulpTable() {
+            const table = document.getElementById('pulpTable');
+            const rows = table.querySelectorAll('tr');
+            for (let i = 6; i < rows.length; i++) {
+                table.removeChild(rows[i]);
+            }
+        }
+
         function loadProject(name) {
             currentProject = name;
             const projectObj = cachedProjects[name] || { data: [] };
             const data = projectObj.data || [];
+            
+            resetPulpTable();
+            
+            const numExtraInputs = data.length - defaultNumInputs;
+            if (numExtraInputs > 0 && numExtraInputs % 4 === 0) {
+                const rowsToAdd = numExtraInputs / 4;
+                for (let i = 0; i < rowsToAdd; i++) {
+                    addPulpRow();
+                }
+            }
+            
             const inputs = document.querySelectorAll('input, textarea, select');
 
             inputs.forEach((i, idx) => {
@@ -696,6 +716,7 @@
         }
 
         async function init() {
+            defaultNumInputs = document.querySelectorAll('input, textarea, select').length;
             await fetchProjects();
             renderProjects();
         }
