@@ -90,6 +90,7 @@
         textarea,
         select {
             width: 100%;
+            box-sizing: border-box;
             padding: 8px;
             margin-top: 4px;
             border: 1px solid #ccc;
@@ -99,7 +100,18 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px
+            margin-top: 10px;
+            table-layout: auto;
+        }
+
+        #pulpTable th:nth-child(3), 
+        #pulpTable td:nth-child(3) {
+            width: 150px;
+            min-width: 150px;
+        }
+
+        .checkbox-cell, th:first-child {
+            width: 60px;
         }
 
         th,
@@ -445,6 +457,7 @@
                 <div class="actions">
                     <button class="print" onclick="window.print()">Export Setup Sheet (PDF)</button>
                     <button class="save" onclick="saveProject()">Save Project</button>
+                    <button class="delete-btn" onclick="deleteProject()" style="background: #ef4444; color: white;">Delete Project</button>
                 </div>
 
             </div>
@@ -489,6 +502,40 @@
             }
         }
 
+        async function deleteProjectToAPI(name) {
+            try {
+                if (!cachedProjects[name] || !cachedProjects[name]._recordId) {
+                    delete cachedProjects[name];
+                    currentProject = null;
+                    renderProjects();
+                    return;
+                }
+                const recordId = cachedProjects[name]._recordId;
+                
+                const res = await fetch('/api/projects', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ recordId })
+                });
+                
+                if (res.ok) {
+                    delete cachedProjects[name];
+                    currentProject = null;
+                    const inputs = document.querySelectorAll('input, textarea, select');
+                    inputs.forEach(i => {
+                        if (i.type === 'checkbox') i.checked = false;
+                        else i.value = '';
+                    });
+                    renderProjects();
+                } else {
+                    alert('Error deleting project from Airtable.');
+                }
+            } catch (e) {
+                console.error('Failure deleting project:', e);
+                alert('Connection error deleting project.');
+            }
+        }
+
         function renderProjects() {
             const list = document.getElementById('projectList');
             list.innerHTML = '';
@@ -503,14 +550,22 @@
         }
 
         async function createProject() {
-            const name = prompt('Artist or Project Name:');
-            if (!name) return;
+            const artistName = prompt('Artist Name:');
+            if (!artistName) return;
+            const studioDates = prompt('Studio Dates:');
+            if (!studioDates) return;
+            
+            const name = artistName + ' - ' + studioDates;
 
             cachedProjects[name] = [];
             
             renderProjects();
             loadProject(name);
-            await saveProjectToAPI(name, []);
+            
+            const artistInput = document.getElementById('artist');
+            if (artistInput) artistInput.value = name;
+            
+            await saveProject();
         }
 
         function loadProject(name) {
@@ -558,6 +613,24 @@
             
             btn.innerText = originalText;
             alert('Project saved to Airtable!');
+        }
+        
+        async function deleteProject() {
+            if (!currentProject) {
+                alert('Select a project first.');
+                return;
+            }
+            const confirmed = confirm(`Are you sure you want to completely delete "${currentProject}"? This cannot be undone.`);
+            if (!confirmed) return;
+            
+            const btn = document.querySelector('.delete-btn');
+            const originalText = btn.innerText;
+            btn.innerText = 'Deleting...';
+            
+            await deleteProjectToAPI(currentProject);
+            
+            if (btn) btn.innerText = originalText;
+            alert('Project deleted.');
         }
 
         function addPulpRow() {
