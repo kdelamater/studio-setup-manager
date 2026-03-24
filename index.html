@@ -224,9 +224,23 @@
                 height: auto;
             }
             .large-check input[type=checkbox] {
+                -webkit-appearance: none;
+                appearance: none;
                 width: 14px;
                 height: 14px;
+                border: 1px solid #000;
+                border-radius: 2px;
+                display: inline-block;
+                position: relative;
                 margin: 0;
+            }
+            .large-check input[type=checkbox]:checked::after {
+                content: '✔';
+                position: absolute;
+                top: -2px;
+                left: 1px;
+                font-size: 14px;
+                color: black;
             }
             label {
                 font-size: 11px;
