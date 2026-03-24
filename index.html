@@ -604,6 +604,10 @@
                 else data.push(i.value);
             });
 
+            if (cachedProjects[currentProject] && cachedProjects[currentProject]._recordId) {
+                data._recordId = cachedProjects[currentProject]._recordId;
+            }
+
             cachedProjects[currentProject] = data;
             
             const btn = document.querySelector('.save');
