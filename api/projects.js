@@ -34,10 +34,9 @@ module.exports = async function handler(req, res) {
         
         const artist = data[0] || '';
         const dates = data[1] || '';
-        const technique = data[2] || '';
-        const collab = data[3] || '';
-        const asst = data[4] || '';
-        const notes = data[5] || '';
+        const collab = data[2] || '';
+        const asst = data[3] || '';
+        const notes = data[4] || '';
 
         const recordId = data._recordId;
         const rawArray = [...data];
@@ -46,7 +45,6 @@ module.exports = async function handler(req, res) {
             "Project Name": currentProject,
             "Artist": typeof artist === 'string' ? artist : '',
             "Studio Dates": typeof dates === 'string' ? dates : '',
-            "Technique Focus": typeof technique === 'string' && technique ? technique : 'General Sheet Forming',
             "Collaborators": typeof collab === 'string' ? collab : '',
             "Assistants": typeof asst === 'string' ? asst : '',
             "Notes": typeof notes === 'string' ? notes : '',
