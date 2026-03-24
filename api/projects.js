@@ -18,8 +18,7 @@ module.exports = async function handler(req, res) {
                     if (name && rawJson) {
                         try {
                             const parsed = JSON.parse(rawJson);
-                            parsed._recordId = record.id;
-                            projects[name] = parsed;
+                            projects[name] = { data: parsed, recordId: record.id };
                         } catch(e) {}
                     }
                 });
