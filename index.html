@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paper Studio Manager</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            background: #eef2f5
+        }
+
+        .app {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            height: 100vh
+        }
+
+        .sidebar {
+            background: #1f2933;
+            color: white;
+            padding: 20px;
+            overflow: auto
+        }
+
+        .sidebar h2 {
+            margin-top: 0
+        }
+
+        .project {
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 6px;
+            background: rgba(255, 255, 255, 0.06)
+        }
+
+        .project:hover {
+            background: rgba(255, 255, 255, 0.18)
+        }
+
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer
+        }
+
+        .new-btn {
+            width: 100%;
+            margin-bottom: 10px;
+            background: #3b82f6;
+            color: white
+        }
+
+        .main {
+            overflow: auto;
+            padding: 30px
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08)
+        }
+
+        h1 {
+            margin-top: 0
+        }
+
+        h2 {
+            margin-top: 35px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 6px
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px
+        }
+
+        input[type=text],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            border: 1px solid #ccc;
+            border-radius: 6px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px
+        }
+
+        th {
+            background: #f0f0f0
+        }
+
+        .checkbox-cell {
+            text-align: center
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 25px
+        }
+
+        .print {
+            background: #111;
+            color: white
+        }
+
+        .save {
+            background: #10b981;
+            color: white
+        }
+
+        .add {
+            background: #6366f1;
+            color: white
+        }
+
+        .large-check input {
+            width: 22px;
+            height: 22px
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app">
+
+        <div class="sidebar">
+            <h2>Studio Projects</h2>
+            <button class="new-btn" onclick="createProject()">+ New Artist / Project</button>
+            <div id="projectList"></div>
+        </div>
+
+        <div class="main">
+            <div class="container">
+                <h1>Paper Studio Setup Manager</h1>
+
+                <h2>Session Information</h2>
+                <label>Artist</label>
+                <input type="text" id="artist">
+
+                <label>Studio Dates</label>
+                <input type="text" id="dates">
+
+                <label>Technique Focus</label>
+                <select id="technique">
+                    <option>General Sheet Forming</option>
+                    <option>Silkscreen</option>
+                    <option>Casting</option>
+                    <option>Watermarks</option>
+                    <option>Experimental</option>
+                </select>
+
+                <label>Collaborators</label>
+                <input type="text" id="collaborators">
+
+                <label>Assistants</label>
+                <input type="text" id="assistants">
+
+                <label>Notes</label>
+                <textarea id="notes" rows="3"></textarea>
+
+                <h2>Pulp Preparation</h2>
+                <table id="pulpTable">
+                    <tr>
+                        <th>Done</th>
+                        <th>Pulp</th>
+                        <th>Amount</th>
+                        <th>Notes</th>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>Standard Cotton</td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>Short Cotton</td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>Casting Cotton</td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>8hr Abaca</td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>10hr Linen</td>
+                        <td><input type="text"></td>
+                        <td><input type="text"></td>
+                    </tr>
+                </table>
+
+                <button class="add" onclick="addPulpRow()">+ Add Fiber</button>
+
+                <h2>Pigment & Additives</h2>
+                <table>
+                    <tr>
+                        <th>Done</th>
+                        <th>Material</th>
+                        <th>Notes</th>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>Methyl Cellulose</td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>Formation Aid</td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>Pulp Paint Containers</td>
+                        <td><input type="text"></td>
+                    </tr>
+                </table>
+
+                <h2>Creative Technique Prep</h2>
+                <table>
+                    <tr>
+                        <th>Done</th>
+                        <th>Technique</th>
+                        <th>Prep Notes</th>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>Stencils / Mylar</td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>Silkscreen</td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>Casting Setup</td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>Vinyl / Watermarks</td>
+                        <td><input type="text"></td>
+                    </tr>
+                </table>
+
+                <h2>Studio Setup</h2>
+                <table>
+                    <tr>
+                        <th>Done</th>
+                        <th>Item</th>
+                        <th>Notes</th>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>Tables Configured</td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>Carts / Surfaces</td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>Stations Ready</td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>Felts</td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>Pellons</td>
+                        <td><input type="text"></td>
+                    </tr>
+                    <tr class="large-check">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td>Spray Bottles</td>
+                        <td><input type="text"></td>
+                    </tr>
+                </table>
+
+                <div class="actions">
+                    <button class="print" onclick="window.print()">Export Setup Sheet (PDF)</button>
+                    <button class="save" onclick="saveProject()">Save Project</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentProject = null;
+        let cachedProjects = {};
+
+        async function fetchProjects() {
+            try {
+                const res = await fetch('/api/projects');
+                if (res.ok) {
+                    cachedProjects = await res.json();
+                }
+            } catch (e) {
+                console.error('Failure fetching projects:', e);
+            }
+        }
+
+        async function saveProjectToAPI(name, data) {
+            try {
+                if (cachedProjects[name] && cachedProjects[name]._recordId) {
+                    data._recordId = cachedProjects[name]._recordId;
+                }
+                const res = await fetch('/api/projects', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ currentProject: name, data })
+                });
+                if (res.ok) {
+                    await fetchProjects();
+                    renderProjects();
+                } else {
+                    alert('Error saving project to Airtable.');
+                }
+            } catch (e) {
+                console.error('Failure saving project:', e);
+                alert('Connection error saving project.');
+            }
+        }
+
+        function renderProjects() {
+            const list = document.getElementById('projectList');
+            list.innerHTML = '';
+
+            Object.keys(cachedProjects).forEach(name => {
+                const div = document.createElement('div');
+                div.className = 'project';
+                div.innerText = name;
+                div.onclick = () => loadProject(name);
+                list.appendChild(div);
+            });
+        }
+
+        async function createProject() {
+            const name = prompt('Artist or Project Name:');
+            if (!name) return;
+
+            cachedProjects[name] = [];
+            
+            renderProjects();
+            loadProject(name);
+            await saveProjectToAPI(name, []);
+        }
+
+        function loadProject(name) {
+            currentProject = name;
+            const data = cachedProjects[name] || [];
+            const inputs = document.querySelectorAll('input, textarea, select');
+
+            inputs.forEach((i, idx) => {
+                const val = data[idx];
+
+                if (val !== undefined) {
+                    if (i.type === 'checkbox') {
+                        i.checked = val;
+                    } else {
+                        i.value = val;
+                    }
+                } else {
+                    if (i.type === 'checkbox') i.checked = false;
+                    else i.value = '';
+                }
+            });
+        }
+
+        async function saveProject() {
+            if (!currentProject) {
+                alert('Create or select a project first.');
+                return;
+            }
+
+            const inputs = document.querySelectorAll('input, textarea, select');
+            const data = [];
+
+            inputs.forEach(i => {
+                if (i.type === 'checkbox') data.push(i.checked);
+                else data.push(i.value);
+            });
+
+            cachedProjects[currentProject] = data;
+            
+            const btn = document.querySelector('.save');
+            const originalText = btn.innerText;
+            btn.innerText = 'Saving...';
+            
+            await saveProjectToAPI(currentProject, data);
+            
+            btn.innerText = originalText;
+            alert('Project saved to Airtable!');
+        }
+
+        function addPulpRow() {
+            const table = document.getElementById('pulpTable');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+    <td class="checkbox-cell"><input type="checkbox"></td>
+    <td><input type="text" placeholder="Fiber type"></td>
+    <td><input type="text"></td>
+    <td><input type="text"></td>
+  `;
+            table.appendChild(row);
+        }
+
+        async function init() {
+            await fetchProjects();
+            renderProjects();
+        }
+
+        init();
+    </script>
+
+</body>
+
+</html>
