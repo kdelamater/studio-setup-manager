@@ -143,6 +143,10 @@
         }
 
         @media print {
+            .print-section {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
             @page {
                 size: portrait;
                 margin: 0.5in;
@@ -232,164 +236,175 @@
             <div class="container">
                 <h1>Paper Studio Setup Manager</h1>
 
-                <h2>Session Information</h2>
-                <label>Artist</label>
-                <input type="text" id="artist">
+                
+                <div class="print-section">
+                    <h2>Session Information</h2>
+                                    <label>Artist</label>
+                                    <input type="text" id="artist">
+                    
+                                    <label>Studio Dates</label>
+                                    <input type="text" id="dates">
+                    
+                                    <label>Technique Focus</label>
+                                    <select id="technique">
+                                        <option>General Sheet Forming</option>
+                                        <option>Silkscreen</option>
+                                        <option>Casting</option>
+                                        <option>Watermarks</option>
+                                        <option>Experimental</option>
+                                    </select>
+                    
+                                    <label>Collaborators</label>
+                                    <input type="text" id="collaborators">
+                    
+                                    <label>Assistants</label>
+                                    <input type="text" id="assistants">
+                    
+                                    <label>Notes</label>
+                                    <textarea id="notes" rows="3"></textarea>
+                </div>
 
-                <label>Studio Dates</label>
-                <input type="text" id="dates">
+                <div class="print-section">
+                    <h2>Pulp Preparation</h2>
+                                    <table id="pulpTable">
+                                        <tr>
+                                            <th>Done</th>
+                                            <th>Pulp</th>
+                                            <th>Amount</th>
+                                            <th>Notes</th>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>Standard Cotton</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>Short Cotton</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>Casting Cotton</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>8hr Abaca</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>10hr Linen</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                    </table>
+                    
+                                    <button class="add" onclick="addPulpRow()">+ Add Fiber</button>
+                </div>
 
-                <label>Technique Focus</label>
-                <select id="technique">
-                    <option>General Sheet Forming</option>
-                    <option>Silkscreen</option>
-                    <option>Casting</option>
-                    <option>Watermarks</option>
-                    <option>Experimental</option>
-                </select>
+                <div class="print-section">
+                    <h2>Pigment & Additives</h2>
+                                    <table>
+                                        <tr>
+                                            <th>Done</th>
+                                            <th>Material</th>
+                                            <th>Notes</th>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>Methyl Cellulose</td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>Formation Aid</td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>Pulp Paint Containers</td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                    </table>
+                </div>
 
-                <label>Collaborators</label>
-                <input type="text" id="collaborators">
+                <div class="print-section">
+                    <h2>Creative Technique Prep</h2>
+                                    <table>
+                                        <tr>
+                                            <th>Done</th>
+                                            <th>Technique</th>
+                                            <th>Prep Notes</th>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>Stencils / Mylar</td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>Silkscreen</td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>Casting Setup</td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>Vinyl / Watermarks</td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                    </table>
+                </div>
 
-                <label>Assistants</label>
-                <input type="text" id="assistants">
-
-                <label>Notes</label>
-                <textarea id="notes" rows="3"></textarea>
-
-                <h2>Pulp Preparation</h2>
-                <table id="pulpTable">
-                    <tr>
-                        <th>Done</th>
-                        <th>Pulp</th>
-                        <th>Amount</th>
-                        <th>Notes</th>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>Standard Cotton</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>Short Cotton</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>Casting Cotton</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>8hr Abaca</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>10hr Linen</td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                    </tr>
-                </table>
-
-                <button class="add" onclick="addPulpRow()">+ Add Fiber</button>
-
-                <h2>Pigment & Additives</h2>
-                <table>
-                    <tr>
-                        <th>Done</th>
-                        <th>Material</th>
-                        <th>Notes</th>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>Methyl Cellulose</td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>Formation Aid</td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>Pulp Paint Containers</td>
-                        <td><input type="text"></td>
-                    </tr>
-                </table>
-
-                <h2>Creative Technique Prep</h2>
-                <table>
-                    <tr>
-                        <th>Done</th>
-                        <th>Technique</th>
-                        <th>Prep Notes</th>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>Stencils / Mylar</td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>Silkscreen</td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>Casting Setup</td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>Vinyl / Watermarks</td>
-                        <td><input type="text"></td>
-                    </tr>
-                </table>
-
-                <h2>Studio Setup</h2>
-                <table>
-                    <tr>
-                        <th>Done</th>
-                        <th>Item</th>
-                        <th>Notes</th>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>Tables Configured</td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>Carts / Surfaces</td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>Stations Ready</td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>Felts</td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>Pellons</td>
-                        <td><input type="text"></td>
-                    </tr>
-                    <tr class="large-check">
-                        <td class="checkbox-cell"><input type="checkbox"></td>
-                        <td>Spray Bottles</td>
-                        <td><input type="text"></td>
-                    </tr>
-                </table>
+                <div class="print-section">
+                    <h2>Studio Setup</h2>
+                                    <table>
+                                        <tr>
+                                            <th>Done</th>
+                                            <th>Item</th>
+                                            <th>Notes</th>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>Tables Configured</td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>Carts / Surfaces</td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>Stations Ready</td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>Felts</td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>Pellons</td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="checkbox"></td>
+                                            <td>Spray Bottles</td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                    </table>
+                </div>
 
                 <div class="actions">
                     <button class="print" onclick="window.print()">Export Setup Sheet (PDF)</button>
