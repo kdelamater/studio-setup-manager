@@ -143,6 +143,10 @@
         }
 
         @media print {
+            @page {
+                size: portrait;
+                margin: 0.5in;
+            }
             .sidebar, .actions, .add {
                 display: none !important;
             }
@@ -160,14 +164,48 @@
             }
             body {
                 background: white;
+                font-size: 11px;
+            }
+            h1 {
+                font-size: 18px;
+                margin-bottom: 5px;
+            }
+            h2 {
+                font-size: 14px;
+                margin-top: 10px;
+                margin-bottom: 5px;
+                padding-bottom: 2px;
+            }
+            table {
+                page-break-inside: avoid;
+                margin-top: 5px;
+            }
+            tr {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            th, td {
+                padding: 3px;
+                font-size: 11px;
             }
             input[type=text], textarea, select {
                 border: none;
                 border-bottom: 1px dashed #ccc;
                 border-radius: 0;
                 appearance: none;
-                padding: 4px;
+                padding: 2px;
+                font-size: 11px;
                 resize: none;
+                height: auto;
+            }
+            .large-check input {
+                width: 14px;
+                height: 14px;
+                margin: 0;
+            }
+            label {
+                font-size: 11px;
+                margin-top: 6px;
             }
         }
     </style>
