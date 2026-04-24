@@ -440,7 +440,7 @@
                 </div>
 
                 <div class="print-section">
-                    <h2>Studio Setup</h2>
+                    <h2>Studio Layout</h2>
                                     <table id="setupTable">
                                         <tr>
                                             <th>Needed?</th>
@@ -675,6 +675,12 @@
                         
                         if (firstInput.type === 'checkbox') {
                             isActive = firstInput.checked;
+                            if (firstInput.getAttribute('data-always-note') === 'true') {
+                                const notesInput = row.querySelector('textarea, input:last-of-type');
+                                if (notesInput && notesInput.value.trim() !== '') {
+                                    isActive = true;
+                                }
+                            }
                         } else if (firstInput.type === 'text') {
                             isActive = firstInput.value.trim() !== '';
                         }
