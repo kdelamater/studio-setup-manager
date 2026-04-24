@@ -145,7 +145,7 @@
             color: white
         }
 
-        .add {
+        .qty-input {\n            width: 40px !important;\n            text-align: center;\n            padding: 4px;\n        }\n\n        .add {
             margin-top: 15px;
             background: #6366f1;
             color: white
@@ -357,40 +357,37 @@
                 </div>
 
                 <div class="print-section">
-                    <h2>Moulds and Deckles</h2>
-                    <table id="mouldsTable">
-                        <tr>
-                            <th>Needed?</th>
+                    <h2>Moulds and Deckles</h2>\n                    <table id="mouldsTable">\n                        <tr>\n                            <th>Quantity</th>
                             <th>Size</th>
                             <th>Notes</th>
                         </tr>
                         <tr class="large-check">
-                            <td class="checkbox-cell"><input type="checkbox"></td>
+                            <td class="checkbox-cell"><input type="text" class="qty-input"></td>
                             <td>11x14</td>
                             <td><textarea rows="1"></textarea></td>
                         </tr>
                         <tr class="large-check">
-                            <td class="checkbox-cell"><input type="checkbox"></td>
+                            <td class="checkbox-cell"><input type="text" class="qty-input"></td>
                             <td>16x20</td>
                             <td><textarea rows="1"></textarea></td>
                         </tr>
                         <tr class="large-check">
-                            <td class="checkbox-cell"><input type="checkbox"></td>
+                            <td class="checkbox-cell"><input type="text" class="qty-input"></td>
                             <td>18x24</td>
                             <td><textarea rows="1"></textarea></td>
                         </tr>
                         <tr class="large-check">
-                            <td class="checkbox-cell"><input type="checkbox"></td>
+                            <td class="checkbox-cell"><input type="text" class="qty-input"></td>
                             <td>22x30</td>
                             <td><textarea rows="1"></textarea></td>
                         </tr>
                         <tr class="large-check">
-                            <td class="checkbox-cell"><input type="checkbox"></td>
+                            <td class="checkbox-cell"><input type="text" class="qty-input"></td>
                             <td>30x40</td>
                             <td><textarea rows="1"></textarea></td>
                         </tr>
                         <tr class="large-check">
-                            <td class="checkbox-cell"><input type="checkbox"></td>
+                            <td class="checkbox-cell"><input type="text" class="qty-input"></td>
                             <td>40x60</td>
                             <td><textarea rows="1"></textarea></td>
                         </tr>
@@ -615,9 +612,7 @@
                 if (val !== undefined) {
                     if (i.type === 'checkbox') {
                         i.checked = val;
-                    } else {
-                        i.value = val;
-                    }
+                    } else {\n                        i.value = (typeof val === "boolean") ? "" : val;\n                    }
                 } else {
                     if (i.type === 'checkbox') i.checked = false;
                     else i.value = '';
@@ -653,28 +648,44 @@
                 const rows = table.querySelectorAll('.large-check');
                 rows.forEach(row => {
                     const inputs = row.querySelectorAll('input, select, textarea');
-                    if (inputs.length > 0 && inputs[0].type === 'checkbox' && inputs[0].checked) {
-                        let rowText = [];
-                        const tds = row.querySelectorAll('td');
+                    if (inputs.length > 0) {
+                        const firstInput = inputs[0];
+                        let isActive = false;
                         
-                        if (tableId === 'pulpTable') {
-                            const nameInput = tds[1].querySelector('input');
-                            const name = nameInput ? nameInput.value.trim() : tds[1].innerText.trim();
-                            if (name) rowText.push(name);
-                            
-                            const amount = inputs[1] && inputs[1].type==='text' ? inputs[1].value.trim() : '';
-                            if (amount) rowText.push('(' + amount + ')');
-                            
-                            const notes = inputs[2] ? inputs[2].value.trim() : '';
-                            if (notes) rowText.push('- Note: ' + notes);
-                        } else {
-                            const name = tds[1] ? tds[1].innerText.trim() : '';
-                            if (name) rowText.push(name);
-                            
-                            const notes = inputs[1] ? inputs[1].value.trim() : '';
-                            if (notes) rowText.push('- Note: ' + notes);
+                        if (firstInput.type === 'checkbox') {
+                            isActive = firstInput.checked;
+                        } else if (firstInput.type === 'text') {
+                            isActive = firstInput.value.trim() !== '';
                         }
-                        summary.push('- ' + rowText.join(' '));
+                        
+                        if (isActive) {
+                            let rowText = [];
+                            const tds = row.querySelectorAll('td');
+                            
+                            if (tableId === 'pulpTable') {
+                                const nameInput = tds[1].querySelector('input');
+                                const name = nameInput ? nameInput.value.trim() : tds[1].innerText.trim();
+                                if (name) rowText.push(name);
+                                
+                                const amount = inputs[1] && inputs[1].type==='text' ? inputs[1].value.trim() : '';
+                                if (amount) rowText.push('(' + amount + ')');
+                                
+                                const notes = inputs[2] ? inputs[2].value.trim() : '';
+                                if (notes) rowText.push('- Note: ' + notes);
+                            } else {
+                                const name = tds[1] ? tds[1].innerText.trim() : '';
+                                if (name) rowText.push(name);
+                                
+                                if (tableId === 'mouldsTable') {
+                                    const qty = firstInput.value.trim();
+                                    if (qty) rowText.push('(' + qty + ')');
+                                }
+                                
+                                const notes = inputs[1] ? inputs[1].value.trim() : '';
+                                if (notes) rowText.push('- Note: ' + notes);
+                            }
+                            summary.push('- ' + rowText.join(' '));
+                        }
                     }
                 });
                 return summary.join('\n');
