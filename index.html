@@ -509,6 +509,11 @@
                                 <td><textarea rows="1" data-version="2"></textarea></td>
                             </tr>
                             <tr class="large-check">
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td>Eyedroppers</td>
+                                <td><textarea rows="1" data-version="3"></textarea></td>
+                            </tr>
+                            <tr class="large-check">
                                 <td class="checkbox-cell"><input type="checkbox" data-version="2"></td>
                                 <td>Tweezers</td>
                                 <td><textarea rows="1" data-version="2"></textarea></td>
@@ -545,9 +550,10 @@
 
     <script>
                 function getOrderedInputs() {
-            const oldInputs = Array.from(document.querySelectorAll('input:not([data-version="2"]), textarea:not([data-version="2"]), select:not([data-version="2"])'));
-            const newInputs = Array.from(document.querySelectorAll('[data-version="2"]'));
-            return oldInputs.concat(newInputs);
+            const oldInputs = Array.from(document.querySelectorAll('input:not([data-version="2"]):not([data-version="3"]), textarea:not([data-version="2"]):not([data-version="3"]), select:not([data-version="2"]):not([data-version="3"])'));
+            const midInputs = Array.from(document.querySelectorAll('[data-version="2"]'));
+            const newInputs = Array.from(document.querySelectorAll('[data-version="3"]'));
+            return oldInputs.concat(midInputs).concat(newInputs);
         }
         let currentProject = null;
         let cachedProjects = {};
