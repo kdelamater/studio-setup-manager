@@ -321,6 +321,11 @@
                                             <td>10hr Linen</td>
                                             <td><input type="text"></td>
                                             <td><textarea rows="1"></textarea></td>
+                                        </tr>\n                                        <tr class="large-check">
+                                            <td class="checkbox-cell"><input type="text" class="qty-input" data-version="2"></td>
+                                            <td>Pulp Paint</td>
+                                            <td><input type="text" data-version="2"></td>
+                                            <td><textarea rows="1" data-version="2"></textarea></td>
                                         </tr>
                                     </table>
                     
@@ -347,11 +352,7 @@
                                             <td>Formation Aid</td>
                                             <td><textarea rows="1"></textarea></td>
                                         </tr>
-                                        <tr class="large-check">
-                                            <td class="checkbox-cell"><input type="text" class="qty-input"></td>
-                                            <td>Pulp Paint Containers</td>
-                                            <td><textarea rows="1"></textarea></td>
-                                        </tr>
+                                        <tr class="large-check" style="display:none;">\n                                            <td class="checkbox-cell"><input type="text" class="qty-input"></td>\n                                            <td>Pulp Paint Containers</td>\n                                            <td><textarea rows="1"></textarea></td>\n                                        </tr>
                                     </table>
                 </div>
 
@@ -477,7 +478,11 @@
     </div>
 
     <script>
-        let currentProject = null;
+                function getOrderedInputs() {
+            const oldInputs = Array.from(document.querySelectorAll('input:not([data-version="2"]), textarea:not([data-version="2"]), select:not([data-version="2"])'));
+            const newInputs = Array.from(document.querySelectorAll('[data-version="2"]'));
+            return oldInputs.concat(newInputs);
+        }\n        let currentProject = null;
         let cachedProjects = {};
         let defaultNumInputs = 0;
 
@@ -533,7 +538,7 @@
                 if (res.ok) {
                     delete cachedProjects[name];
                     currentProject = null;
-                    const inputs = document.querySelectorAll('input, textarea, select');
+                    const inputs = getOrderedInputs();
                     inputs.forEach(i => {
                         if (i.type === 'checkbox') i.checked = false;
                         else i.value = '';
@@ -603,7 +608,7 @@
                 }
             }
             
-            const inputs = document.querySelectorAll('input, textarea, select');
+            const inputs = getOrderedInputs();
 
             inputs.forEach((i, idx) => {
                 const val = data[idx];
@@ -625,7 +630,7 @@
                 return;
             }
 
-            const inputs = document.querySelectorAll('input, textarea, select');
+            const inputs = getOrderedInputs();
             const data = [];
 
             inputs.forEach(i => {
@@ -757,7 +762,7 @@
         }
 
         async function init() {
-            defaultNumInputs = document.querySelectorAll('input, textarea, select').length;
+            defaultNumInputs = getOrderedInputs().length;
             await fetchProjects();
             renderProjects();
         }
