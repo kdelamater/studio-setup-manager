@@ -118,6 +118,15 @@
             width: 60px;
         }
 
+        #setupTable th:nth-child(2), 
+        #setupTable td:nth-child(2),
+        #stationTable th:nth-child(2), 
+        #stationTable td:nth-child(2),
+        #techniquesTable th:nth-child(2), 
+        #techniquesTable td:nth-child(2) {
+            width: 315px;
+        }
+
         th,
         td {
             border: 1px solid #ddd;
@@ -423,22 +432,34 @@
                                         </tr>
                                         <tr class="large-check">
                                             <td class="checkbox-cell"><input type="text" class="qty-input"></td>
-                                            <td>Stencils / Mylar</td>
+                                            <td>
+                                                Stencils / Mylar
+                                                <div style="font-size: 0.8em; margin-top: 4px; color: #666;">Requests for stencils to be cut on plotter must be assigned to studio assistants 2 weeks in advance of date needed. Please upload the assignment and files to AirTable. It is assumed all stencils will require Crystal Clear on each side. Please note if you will need a carrier sheet and if so what size.</div>
+                                            </td>
                                             <td><textarea rows="1"></textarea></td>
                                         </tr>
                                         <tr class="large-check">
                                             <td class="checkbox-cell"><input type="text" class="qty-input"></td>
-                                            <td>Silkscreen</td>
+                                            <td>
+                                                Silkscreen
+                                                <div style="font-size: 0.8em; margin-top: 4px; color: #666;">Each collaborator is individually responsible for coordinating fabrication of silkscreens with the support of studio assistants. Requests for silkscreen fabrication should be sent to the vendor at least 2 weeks before they are needed.</div>
+                                            </td>
                                             <td><textarea rows="1"></textarea></td>
                                         </tr>
                                         <tr class="large-check">
                                             <td class="checkbox-cell"><input type="text" class="qty-input"></td>
-                                            <td>Casting Setup</td>
+                                            <td>
+                                                Casting Setup
+                                                <div style="font-size: 0.8em; margin-top: 4px; color: #666;">Please specify any additional supplies needed for casting. This might include mold release, pellon strips, rocks, and wire carts for drying.</div>
+                                            </td>
                                             <td><textarea rows="1"></textarea></td>
                                         </tr>
                                         <tr class="large-check">
                                             <td class="checkbox-cell"><input type="text" class="qty-input"></td>
-                                            <td>Vinyl / Watermarks</td>
+                                            <td>
+                                                Vinyl / Watermarks
+                                                <div style="font-size: 0.8em; margin-top: 4px; color: #666;">Requests for vinyl stencils to be cut on plotter must be assigned to studio assistants 2 weeks in advance of date needed. Please upload the assignment and files to AirTable. It is assumed all stencils will be weeded and covered with transfer tape unless otherwise instructed.</div>
+                                            </td>
                                             <td><textarea rows="1"></textarea></td>
                                         </tr>
                                     </table>
@@ -456,12 +477,35 @@
                             </tr>
                             <tr class="large-check">
                                 <td class="checkbox-cell"><input type="checkbox" style="visibility:hidden" data-always-note="true"></td>
-                                <td>Tables Configured</td>
+                                <td>
+                                    Tables Configured
+                                    <div style="font-size: 0.8em; margin-top: 4px; display: flex; flex-direction: column; gap: 2px;">
+                                        <a href="prof2-standard-layout.pdf" target="_blank" style="color: #3b82f6; text-decoration: underline;">Prof 2 Standard Layout</a>
+                                        <a href="prof1-custom-layout.jpg" target="_blank" style="color: #3b82f6; text-decoration: underline;">Prof 1 - Custom Layout</a>
+                                        <a href="prof1-large-sheet-forming.jpg" target="_blank" style="color: #3b82f6; text-decoration: underline;">Prof 1 - Large Sheet Forming</a>
+                                        <a href="prof1-workshop-layout.jpg" target="_blank" style="color: #3b82f6; text-decoration: underline;">Prof 1 - Workshop Layout</a>
+                                    </div>
+                                </td>
                                 <td><textarea rows="1"></textarea></td>
                             </tr>
                             <tr class="large-check">
                                 <td class="checkbox-cell"><input type="checkbox" style="visibility:hidden" data-always-note="true"></td>
                                 <td>Carts / Surfaces</td>
+                                <td><textarea rows="1"></textarea></td>
+                            </tr>
+                            <tr class="large-check">
+                                <td class="checkbox-cell"><input type="checkbox" style="visibility:hidden" data-always-note="true"></td>
+                                <td>Vats</td>
+                                <td><textarea rows="1"></textarea></td>
+                            </tr>
+                            <tr class="large-check">
+                                <td class="checkbox-cell"><input type="checkbox" style="visibility:hidden" data-always-note="true"></td>
+                                <td>Utility Sinks</td>
+                                <td><textarea rows="1"></textarea></td>
+                            </tr>
+                            <tr class="large-check">
+                                <td class="checkbox-cell"><input type="checkbox" style="visibility:hidden" data-always-note="true"></td>
+                                <td>Fogg-It Nozzles</td>
                                 <td><textarea rows="1"></textarea></td>
                             </tr>
                             <tr class="large-check" style="display:none;">
@@ -484,28 +528,43 @@
                             
                             <tr class="large-check">
                                 <td class="checkbox-cell"><input type="checkbox" data-version="2"></td>
-                                <td>Boards</td>
+                                <td>
+                                    Boards
+                                    <div style="font-size: 0.8em; margin-top: 4px; color: #666;">Specify quantity needed and preference for wooden or plastic.</div>
+                                </td>
                                 <td><textarea rows="1" data-version="2"></textarea></td>
                             </tr>
                             <tr class="large-check">
                                 <td class="checkbox-cell"><input type="checkbox" data-version="2"></td>
-                                <td>Metals</td>
+                                <td>
+                                    Metals
+                                    <div style="font-size: 0.8em; margin-top: 4px; color: #666;">Specify quantity needed of each type - stainless, flat, or dinged.</div>
+                                </td>
                                 <td><textarea rows="1" data-version="2"></textarea></td>
                             </tr>
                             <tr class="large-check">
                                 <td class="checkbox-cell"><input type="checkbox"></td>
-                                <td>Felts</td>
+                                <td>
+                                    Felts
+                                    <div style="font-size: 0.8em; margin-top: 4px; color: #666;">Specify 1 or 2 felts for base of post and preference for soft or darker brown felts.</div>
+                                </td>
                                 <td><textarea rows="1"></textarea></td>
                             </tr>
                             <tr class="large-check">
                                 <td class="checkbox-cell"><input type="checkbox"></td>
-                                <td>Pellons</td>
+                                <td>
+                                    Pellons
+                                    <div style="font-size: 0.8em; margin-top: 4px; color: #666;">Specify quantity of top and bottom pellons needed as well as quality preference for each - lightly stained, semi-stained, heavily stained. Please note if top pellons will get dinged.</div>
+                                </td>
                                 <td><textarea rows="1"></textarea></td>
                             </tr>
                             
                             <tr class="large-check">
                                 <td class="checkbox-cell"><input type="checkbox" data-version="2"></td>
-                                <td>Water</td>
+                                <td>
+                                    Water
+                                    <div style="font-size: 0.8em; margin-top: 4px; color: #666;">We assume each table will have a quart of clean water and a quart of rinse water.</div>
+                                </td>
                                 <td><textarea rows="1" data-version="2"></textarea></td>
                             </tr>
                             <tr class="large-check">
@@ -773,17 +832,6 @@
                                 
                                 const notesInput = tds[2] ? tds[2].querySelector('textarea, input') : null;
                                 const notes = notesInput ? notesInput.value.trim() : '';
-                                if (notes) rowText.push('- Note: ' + notes);
-                            } else {
-                                const name = tds[1] ? tds[1].innerText.trim() : '';
-                                if (name) rowText.push(name);
-                                
-                                if (tableId === 'mouldsTable') {
-                                    const qty = firstInput.value.trim();
-                                    if (qty) rowText.push('(' + qty + ')');
-                                }
-                                
-                                const notes = inputs[1] ? inputs[1].value.trim() : '';
                                 if (notes) rowText.push('- Note: ' + notes);
                             }
                             summary.push('- ' + rowText.join(' '));
