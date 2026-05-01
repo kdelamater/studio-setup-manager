@@ -275,13 +275,17 @@
 
 <body>
 
-    <dialog id="newProjectModal" style="padding: 24px; border-radius: 12px; border: 1px solid #ddd; box-shadow: 0 8px 24px rgba(0,0,0,0.15); width: 320px; outline: none;">
+    <dialog id="newProjectModal" style="padding: 24px; border-radius: 12px; border: 1px solid #ddd; box-shadow: 0 8px 24px rgba(0,0,0,0.15); width: 340px; outline: none;">
         <h3 style="margin-top: 0; margin-bottom: 20px; font-family: sans-serif;">Create New Project</h3>
         <label style="display:block; margin-bottom: 6px; font-weight: bold; font-family: sans-serif;">Artist Name</label>
         <input type="text" id="modalArtist" style="width: 100%; margin-bottom: 16px; box-sizing: border-box; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" data-ignore="true">
         
-        <label style="display:block; margin-bottom: 6px; font-weight: bold; font-family: sans-serif;">Studio Date</label>
-        <input type="date" id="modalDate" style="width: 100%; margin-bottom: 24px; box-sizing: border-box; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" data-ignore="true">
+        <label style="display:block; margin-bottom: 6px; font-weight: bold; font-family: sans-serif;">Studio Dates</label>
+        <div style="display: flex; gap: 10px; margin-bottom: 24px;">
+            <input type="date" id="modalStartDate" style="flex: 1; box-sizing: border-box; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" data-ignore="true">
+            <span style="align-self: center; font-family: sans-serif; font-size: 14px;">to</span>
+            <input type="date" id="modalEndDate" style="flex: 1; box-sizing: border-box; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" data-ignore="true">
+        </div>
         
         <div style="display: flex; justify-content: flex-end; gap: 10px;">
             <button onclick="document.getElementById('newProjectModal').close()" style="padding: 8px 16px; border-radius: 6px; border: 1px solid #ccc; background: white; cursor: pointer;">Cancel</button>
@@ -307,8 +311,12 @@
                                     <label>Artist</label>
                                     <input type="text" id="artist">
                     
-                                    <label>Studio Date</label>
-                                    <input type="date" id="uiDate" data-version="3">
+                                    <label>Studio Dates</label>
+                                    <div style="display: flex; align-items: center; gap: 4px;">
+                                        <input type="date" id="uiStartDate" data-version="3">
+                                        <span style="font-size: 12px; color: #555;">to</span>
+                                        <input type="date" id="uiEndDate" data-version="3">
+                                    </div>
                     
                                     <label>Collaborators</label>
                                     <input type="text" id="collaborators">
@@ -718,23 +726,25 @@
         function createProject() {
             const modal = document.getElementById('newProjectModal');
             document.getElementById('modalArtist').value = '';
-            document.getElementById('modalDate').value = '';
+            document.getElementById('modalStartDate').value = '';
+            document.getElementById('modalEndDate').value = '';
             modal.showModal();
         }
 
         async function submitNewProject() {
             const artistName = document.getElementById('modalArtist').value;
-            const rawDate = document.getElementById('modalDate').value;
+            const startStr = document.getElementById('modalStartDate').value;
+            const endStr = document.getElementById('modalEndDate').value;
             
-            if (artistName.trim() === '' || rawDate.trim() === '') {
-                alert('Both fields are required.');
+            if (artistName.trim() === '' || startStr.trim() === '' || endStr.trim() === '') {
+                alert('All fields are required.');
                 return;
             }
 
-            const name = artistName.trim() + ' - ' + rawDate;
+            const name = artistName.trim() + ' (' + startStr + ' to ' + endStr + ')';
 
             if (cachedProjects[name]) {
-                alert('A project with this name and date already exists!');
+                alert('A project with this name and dates already exists!');
                 return;
             }
 
@@ -748,8 +758,11 @@
             const artistInput = document.getElementById('artist');
             if (artistInput) artistInput.value = artistName.trim();
             
-            const uiDate = document.getElementById('uiDate');
-            if (uiDate) uiDate.value = rawDate;
+            const uiStart = document.getElementById('uiStartDate');
+            if (uiStart) uiStart.value = startStr;
+
+            const uiEnd = document.getElementById('uiEndDate');
+            if (uiEnd) uiEnd.value = endStr;
             
             await saveProject();
         }
