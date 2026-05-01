@@ -741,7 +741,18 @@
                 return;
             }
 
-            const name = artistName.trim() + ' (' + startStr + ' to ' + endStr + ')';
+            const formatMMDDYYYY = (dateString) => {
+                const parts = dateString.split('-');
+                if (parts.length === 3) {
+                    return `${parts[1]}/${parts[2]}/${parts[0]}`;
+                }
+                return dateString;
+            };
+
+            const formattedStart = formatMMDDYYYY(startStr);
+            const formattedEnd = formatMMDDYYYY(endStr);
+
+            const name = artistName.trim() + ' (' + formattedStart + ' to ' + formattedEnd + ')';
 
             if (cachedProjects[name]) {
                 alert('A project with this name and dates already exists!');
