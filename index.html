@@ -715,13 +715,30 @@
             });
         }
 
-        async function createProject() {
-            const artistName = prompt('Artist Name:');
-            if (!artistName) return;
-            const studioDates = prompt('Studio Dates:');
-            if (!studioDates) return;
+        function createProject() {
+            const modal = document.getElementById('newProjectModal');
+            document.getElementById('modalArtist').value = '';
+            document.getElementById('modalDate').value = '';
+            modal.showModal();
+        }
+
+        async function submitNewProject() {
+            const artistName = document.getElementById('modalArtist').value;
+            const rawDate = document.getElementById('modalDate').value;
             
-            const name = artistName + ' - ' + studioDates;
+            if (artistName.trim() === '' || rawDate.trim() === '') {
+                alert('Both fields are required.');
+                return;
+            }
+
+            const name = artistName.trim() + ' - ' + rawDate;
+
+            if (cachedProjects[name]) {
+                alert('A project with this name and date already exists!');
+                return;
+            }
+
+            document.getElementById('newProjectModal').close();
 
             cachedProjects[name] = { data: [] };
             
@@ -729,7 +746,10 @@
             loadProject(name);
             
             const artistInput = document.getElementById('artist');
-            if (artistInput) artistInput.value = name;
+            if (artistInput) artistInput.value = artistName.trim();
+            
+            const uiDate = document.getElementById('uiDate');
+            if (uiDate) uiDate.value = rawDate;
             
             await saveProject();
         }
