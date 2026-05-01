@@ -705,7 +705,7 @@
 
             Object.keys(cachedProjects).forEach(name => {
                 const div = document.createElement('div');
-                div.className = 'project';
+                div.className = 'project' + (name === currentProject ? ' active' : '');
                 div.innerText = name;
                 div.onclick = () => loadProject(name);
                 list.appendChild(div);
@@ -734,7 +734,7 @@
         function resetPulpTable() {
             const table = document.getElementById('pulpTable');
             const rows = table.querySelectorAll('tr');
-            for (let i = 6; i < rows.length; i++) {
+            for (let i = 7; i < rows.length; i++) {
                 table.removeChild(rows[i]);
             }
         }
@@ -770,6 +770,7 @@
                     else i.value = '';
                 }
             });
+            renderProjects();
         }
 
         async function saveProject() {
