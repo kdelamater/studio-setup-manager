@@ -147,7 +147,7 @@
         }
 
         .color-num::before {
-            content: "Color #" counter(color-row) ":";
+            content: counter(color-row) ":";
             font-weight: bold;
             color: #374151;
         }
@@ -568,8 +568,8 @@
                             <div class="color-section">
                                 <div class="color-section-header">
                                     <span class="color-num"></span>
-                                    <label>Pantone / Label:</label>
-                                    <input type="text" data-version="3" placeholder="Enter Pantone or Label...">
+                                    <label>Pantone / Color Name:</label>
+                                    <input type="text" data-version="3" placeholder="Enter Pantone or Color Name...">
                                 </div>
                                 <div class="color-section-fibers">
                                     <label><input type="checkbox" data-version="3"> Abaca</label>
@@ -588,8 +588,8 @@
                             <div class="color-section">
                                 <div class="color-section-header">
                                     <span class="color-num"></span>
-                                    <label>Pantone / Label:</label>
-                                    <input type="text" data-version="3" placeholder="Enter Pantone or Label...">
+                                    <label>Pantone / Color Name:</label>
+                                    <input type="text" data-version="3" placeholder="Enter Pantone or Color Name...">
                                 </div>
                                 <div class="color-section-fibers">
                                     <label><input type="checkbox" data-version="3"> Abaca</label>
@@ -1086,8 +1086,8 @@
             section.innerHTML = `
                 <div class="color-section-header">
                     <span class="color-num"></span>
-                    <label>Pantone / Label:</label>
-                    <input type="text" data-version="3" placeholder="Enter Pantone or Label...">
+                    <label>Pantone / Color Name:</label>
+                    <input type="text" data-version="3" placeholder="Enter Pantone or Color Name...">
                 </div>
                 <div class="color-section-fibers">
                     <label><input type="checkbox" data-version="3"> Abaca</label>
