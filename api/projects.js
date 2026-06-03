@@ -15,11 +15,16 @@ module.exports = async function handler(req, res) {
                 data.records.forEach(record => {
                     const name = record.fields['Project Name'];
                     const rawJson = record.fields['Raw JSON'];
-                    if (name && rawJson) {
+                    if (name) {
                         try {
-                            const parsed = JSON.parse(rawJson);
+                            const parsed = rawJson ? JSON.parse(rawJson) : [];
                             projects[name] = { data: parsed, recordId: record.id };
-                        } catch(e) {}
+                        } catch(e) {
+                            console.error(`Error parsing JSON for project ${name}:`, e);
+                            projects[name] = { data: [], recordId: record.id };
+                        }
+                    } else {
+                        console.warn(`Skipping record ${record.id} because it has no 'Project Name'.`);
                     }
                 });
             }
