@@ -142,6 +142,14 @@
             text-align: center
         }
 
+        #pigmentingTable th {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: #f0f0f0;
+            box-shadow: 0 1px 0 #ddd; /* Maintain border visual while sticky */
+        }
+
         .pigment-table-wrapper {
             max-height: 400px;
             overflow-y: auto;
