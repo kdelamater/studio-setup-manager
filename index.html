@@ -157,19 +157,64 @@
         }
 
         #pigmentingTable th {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            background: #f0f0f0;
-            box-shadow: 0 1px 0 #ddd; /* Maintain border visual while sticky */
+            display: none;
         }
 
         .pigment-table-wrapper {
-            max-height: 400px;
+            max-height: 500px;
             overflow-y: auto;
             border: 1px solid #ddd;
             margin-top: 10px;
             border-radius: 6px;
+            padding: 10px;
+            background: #fdfdfd;
+        }
+
+        .color-section {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .color-section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #f5f5f5;
+            padding-bottom: 8px;
+        }
+
+        .color-section-header label {
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .color-section-fibers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+            background: #f9fafb;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .color-section-fibers label {
+            margin: 0;
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: normal;
+        }
+
+        .color-section-fibers input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
         }
 
         .pigment-grid {
@@ -281,6 +326,17 @@
                 max-height: none !important;
                 overflow: visible !important;
                 border: none !important;
+                padding: 0 !important;
+            }
+            .color-section {
+                border: 1px solid #eee !important;
+                margin-bottom: 15px !important;
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            .color-section-fibers {
+                background: transparent !important;
+                padding: 4px 0 !important;
             }
             .pigment-grid {
                 height: auto !important;
@@ -450,65 +506,63 @@
                 <div class="print-section">
                     <h2>Pigmenting Information</h2>
                     <div class="pigment-table-wrapper">
-                        <table id="pigmentingTable">
-                            <tr>
-                                <th style="width:30px">#</th>
-                                <th>Color Name</th>
-                                <th style="width:60px">Abaca</th>
-                                <th style="width:60px">Standard</th>
-                                <th style="width:60px">Short</th>
-                                <th style="width:100px">Pulp Paint</th>
-                                <th style="width:60px">Other</th>
-                            </tr>
-                            <tbody id="pigmentingBody">
-                                <!-- Rows 1-3 -->
-                                <tr class="large-check">
-                                    <td class="color-num" style="text-align:center; vertical-align:middle;"></td>
-                                    <td><input type="text" data-version="3"></td>
-                                    <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                                    <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                                    <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                                    <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                                    <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="7" style="padding:4px 8px 8px 8px; border-top:none;">
-                                        <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
-                                        <div class="pigment-grid"></div>
-                                    </td>
-                                </tr>
-                                <tr class="large-check">
-                                    <td class="color-num" style="text-align:center; vertical-align:middle;"></td>
-                                    <td><input type="text" data-version="3"></td>
-                                    <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                                    <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                                    <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                                    <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                                    <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="7" style="padding:4px 8px 8px 8px; border-top:none;">
-                                        <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
-                                        <div class="pigment-grid"></div>
-                                    </td>
-                                </tr>
-                                <tr class="large-check">
-                                    <td class="color-num" style="text-align:center; vertical-align:middle;"></td>
-                                    <td><input type="text" data-version="3"></td>
-                                    <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                                    <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                                    <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                                    <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                                    <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="7" style="padding:4px 8px 8px 8px; border-top:none;">
-                                        <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
-                                        <div class="pigment-grid"></div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div id="pigmentingBody">
+                            <!-- Rows 1-3 -->
+                            <div class="color-section">
+                                <div class="color-section-header">
+                                    <span class="color-num"></span>
+                                    <label>Color Name:</label>
+                                    <input type="text" data-version="3" placeholder="Enter color name...">
+                                </div>
+                                <div class="color-section-fibers">
+                                    <label><input type="checkbox" data-version="3"> Abaca</label>
+                                    <label><input type="checkbox" data-version="3"> Standard</label>
+                                    <label><input type="checkbox" data-version="3"> Short</label>
+                                    <label><input type="checkbox" data-version="3"> Pulp Paint</label>
+                                    <label><input type="checkbox" data-version="3"> Other</label>
+                                </div>
+                                <div class="pigment-grid-wrapper">
+                                    <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:6px;">Select Pigments:</label>
+                                    <div class="pigment-grid"></div>
+                                </div>
+                            </div>
+                            <div class="color-section">
+                                <div class="color-section-header">
+                                    <span class="color-num"></span>
+                                    <label>Color Name:</label>
+                                    <input type="text" data-version="3" placeholder="Enter color name...">
+                                </div>
+                                <div class="color-section-fibers">
+                                    <label><input type="checkbox" data-version="3"> Abaca</label>
+                                    <label><input type="checkbox" data-version="3"> Standard</label>
+                                    <label><input type="checkbox" data-version="3"> Short</label>
+                                    <label><input type="checkbox" data-version="3"> Pulp Paint</label>
+                                    <label><input type="checkbox" data-version="3"> Other</label>
+                                </div>
+                                <div class="pigment-grid-wrapper">
+                                    <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:6px;">Select Pigments:</label>
+                                    <div class="pigment-grid"></div>
+                                </div>
+                            </div>
+                            <div class="color-section">
+                                <div class="color-section-header">
+                                    <span class="color-num"></span>
+                                    <label>Color Name:</label>
+                                    <input type="text" data-version="3" placeholder="Enter color name...">
+                                </div>
+                                <div class="color-section-fibers">
+                                    <label><input type="checkbox" data-version="3"> Abaca</label>
+                                    <label><input type="checkbox" data-version="3"> Standard</label>
+                                    <label><input type="checkbox" data-version="3"> Short</label>
+                                    <label><input type="checkbox" data-version="3"> Pulp Paint</label>
+                                    <label><input type="checkbox" data-version="3"> Other</label>
+                                </div>
+                                <div class="pigment-grid-wrapper">
+                                    <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:6px;">Select Pigments:</label>
+                                    <div class="pigment-grid"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <button class="add no-print" onclick="addPigmentRow()">+ Add Color</button>
                     <input type="number" id="pigmentRowCount" data-version="3" value="0" style="display:none;">
@@ -964,28 +1018,28 @@
             const body = document.getElementById('pigmentingBody');
             if (!body) return;
             
-            const tr1 = document.createElement('tr');
-            tr1.className = 'large-check';
-            tr1.innerHTML = `
-                <td class="color-num" style="text-align:center; vertical-align:middle;"></td>
-                <td><input type="text" data-version="3"></td>
-                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-            `;
-            
-            const tr2 = document.createElement('tr');
-            tr2.innerHTML = `
-                <td colspan="7" style="padding:4px 8px 8px 8px; border-top:none;">
-                    <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
+            const section = document.createElement('div');
+            section.className = 'color-section';
+            section.innerHTML = `
+                <div class="color-section-header">
+                    <span class="color-num"></span>
+                    <label>Color Name:</label>
+                    <input type="text" data-version="3" placeholder="Enter color name...">
+                </div>
+                <div class="color-section-fibers">
+                    <label><input type="checkbox" data-version="3"> Abaca</label>
+                    <label><input type="checkbox" data-version="3"> Standard</label>
+                    <label><input type="checkbox" data-version="3"> Short</label>
+                    <label><input type="checkbox" data-version="3"> Pulp Paint</label>
+                    <label><input type="checkbox" data-version="3"> Other</label>
+                </div>
+                <div class="pigment-grid-wrapper">
+                    <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:6px;">Select Pigments:</label>
                     <div class="pigment-grid"></div>
-                </td>
+                </div>
             `;
             
-            body.appendChild(tr1);
-            body.appendChild(tr2);
+            body.appendChild(section);
             
             const countInput = document.getElementById('pigmentRowCount');
             if (countInput) countInput.value = parseInt(countInput.value || 0) + 1;
@@ -1053,67 +1107,88 @@
             cachedProjects[currentProject] = { data: data, recordId: recordId };
             
             function buildSummary(tableId) {
-                const table = document.getElementById(tableId);
-                if (!table) return '';
+                const container = document.getElementById(tableId);
+                if (!container) return '';
                 let summary = [];
-                const rows = table.querySelectorAll('.large-check');
-                rows.forEach(row => {
-                    const inputs = row.querySelectorAll('input, select, textarea');
-                    if (inputs.length > 0) {
-                        const firstInput = inputs[0];
-                        let isActive = false;
+                
+                if (tableId === 'pigmentingTable') {
+                    const sections = document.querySelectorAll('.color-section');
+                    sections.forEach(section => {
+                        const inputs = section.querySelectorAll('input');
+                        const nameInput = inputs[0];
+                        const name = nameInput.value.trim();
                         
-                        if (firstInput.type === 'checkbox') {
-                            isActive = firstInput.checked;
-                            if (firstInput.getAttribute('data-always-note') === 'true') {
-                                const notesInput = row.querySelector('textarea, input:last-of-type');
-                                if (notesInput && notesInput.value.trim() !== '') {
-                                    isActive = true;
+                        if (name) {
+                            let rowText = [name];
+                            const fiberLabels = section.querySelectorAll('.color-section-fibers label');
+                            let fibers = [];
+                            fiberLabels.forEach(label => {
+                                const cb = label.querySelector('input');
+                                if (cb && cb.checked) {
+                                    fibers.push(label.innerText.trim());
                                 }
-                            }
-                        } else if (firstInput.type === 'text') {
-                            isActive = firstInput.value.trim() !== '';
-                        }
-                        
-                        if (isActive) {
-                            let rowText = [];
-                            const tds = row.querySelectorAll('td');
-                            
-                            const qty = firstInput.value.trim();
-                            
-                            if (tableId === 'pulpTable') {
-                                const nameInput = tds[1].querySelector('input');
-                                const name = nameInput ? nameInput.value.trim() : tds[1].innerText.trim();
-                                
-                                let fullName = qty ? qty + ' ' + name : name;
-                                if (fullName) rowText.push(fullName);
-                                
-                                const amountInput = tds[2].querySelector('input');
-                                const amount = amountInput ? amountInput.value.trim() : '';
-                                if (amount) rowText.push('(' + amount + ')');
-                                
-                                const notesInput = tds[3].querySelector('textarea, input');
-                                const notes = notesInput ? notesInput.value.trim() : '';
-                                if (notes) rowText.push('- Note: ' + notes);
-                            } else {
-                                const isPigmenting = tableId === 'pigmentingTable';
-                                const nameIdx = isPigmenting ? 2 : 1;
-                                const name = tds[nameIdx] ? tds[nameIdx].innerText.trim() : '';
-                                if (name) rowText.push(name);
-                                
-                                if (['mouldsTable', 'pigmentTable'].includes(tableId) && qty) {
-                                    rowText.push('(' + qty + ')');
-                                }
-                                
-                                const notesIdx = isPigmenting ? 3 : 2;
-                                const notesInput = tds[notesIdx] ? tds[notesIdx].querySelector('textarea, input') : null;
-                                const notes = notesInput ? notesInput.value.trim() : '';
-                                if (notes) rowText.push('- Note: ' + notes);
-                            }
+                            });
+                            if (fibers.length > 0) rowText.push('(' + fibers.join(', ') + ')');
                             summary.push('- ' + rowText.join(' '));
                         }
-                    }
-                });
+                    });
+                } else {
+                    const rows = container.querySelectorAll('.large-check');
+                    rows.forEach(row => {
+                        const inputs = row.querySelectorAll('input, select, textarea');
+                        if (inputs.length > 0) {
+                            const firstInput = inputs[0];
+                            let isActive = false;
+                            
+                            if (firstInput.type === 'checkbox') {
+                                isActive = firstInput.checked;
+                                if (firstInput.getAttribute('data-always-note') === 'true') {
+                                    const notesInput = row.querySelector('textarea, input:last-of-type');
+                                    if (notesInput && notesInput.value.trim() !== '') {
+                                        isActive = true;
+                                    }
+                                }
+                            } else if (firstInput.type === 'text') {
+                                isActive = firstInput.value.trim() !== '';
+                            }
+                            
+                            if (isActive) {
+                                let rowText = [];
+                                const tds = row.querySelectorAll('td');
+                                
+                                const qty = firstInput.value.trim();
+                                
+                                if (tableId === 'pulpTable') {
+                                    const nameInput = tds[1].querySelector('input');
+                                    const name = nameInput ? nameInput.value.trim() : tds[1].innerText.trim();
+                                    
+                                    let fullName = qty ? qty + ' ' + name : name;
+                                    if (fullName) rowText.push(fullName);
+                                    
+                                    const amountInput = tds[2].querySelector('input');
+                                    const amount = amountInput ? amountInput.value.trim() : '';
+                                    if (amount) rowText.push('(' + amount + ')');
+                                    
+                                    const notesInput = tds[3].querySelector('textarea, input');
+                                    const notes = notesInput ? notesInput.value.trim() : '';
+                                    if (notes) rowText.push('- Note: ' + notes);
+                                } else {
+                                    const name = tds[1] ? tds[1].innerText.trim() : '';
+                                    if (name) rowText.push(name);
+                                    
+                                    if (['mouldsTable', 'pigmentTable'].includes(tableId) && qty) {
+                                        rowText.push('(' + qty + ')');
+                                    }
+                                    
+                                    const notesInput = tds[2] ? tds[2].querySelector('textarea, input') : null;
+                                    const notes = notesInput ? notesInput.value.trim() : '';
+                                    if (notes) rowText.push('- Note: ' + notes);
+                                }
+                                summary.push('- ' + rowText.join(' '));
+                            }
+                        }
+                    });
+                }
                 return summary.join('\n');
             }
 
