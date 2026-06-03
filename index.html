@@ -376,8 +376,8 @@
                                             <td><textarea rows="1" data-version="2"></textarea></td>
                                         </tr>
                                     </table>
-                    
-                                    <button class="add" onclick="addPulpRow()">+ Add Fiber</button>
+                                                        <button class="add no-print" onclick="addPulpRow()">+ Add Fiber</button>
+                                     <input type="number" id="pulpRowCount" data-version="3" value="0" style="display:none;">
                 </div>
 
                 
@@ -393,206 +393,83 @@
                             <th style="width:100px">Pulp Paint</th>
                             <th style="width:60px">Other</th>
                         </tr>
-                        <tr class="large-check">
-                            <td><input type="text" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
-                                <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
-                                <div class="pigment-grid" data-row-index="0"></div>
-                            </td>
-                        </tr>
-                        <tr class="large-check">
-                            <td><input type="text" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
-                                <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
-                                <div class="pigment-grid" data-row-index="1"></div>
-                            </td>
-                        </tr>
-                        <tr class="large-check">
-                            <td><input type="text" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
-                                <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
-                                <div class="pigment-grid" data-row-index="2"></div>
-                            </td>
-                        </tr>
-                        <tr class="large-check">
-                            <td><input type="text" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
-                                <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
-                                <div class="pigment-grid" data-row-index="3"></div>
-                            </td>
-                        </tr>
-                        <tr class="large-check">
-                            <td><input type="text" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
-                                <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
-                                <div class="pigment-grid" data-row-index="4"></div>
-                            </td>
-                        </tr>
-                        <tr class="large-check">
-                            <td><input type="text" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
-                                <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
-                                <div class="pigment-grid" data-row-index="5"></div>
-                            </td>
-                        </tr>
-                        <tr class="large-check">
-                            <td><input type="text" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
-                                <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
-                                <div class="pigment-grid" data-row-index="6"></div>
-                            </td>
-                        </tr>
-                        <tr class="large-check">
-                            <td><input type="text" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
-                                <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
-                                <div class="pigment-grid" data-row-index="7"></div>
-                            </td>
-                        </tr>
-                        <tr class="large-check">
-                            <td><input type="text" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
-                                <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
-                                <div class="pigment-grid" data-row-index="8"></div>
-                            </td>
-                        </tr>
-                        <tr class="large-check">
-                            <td><input type="text" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
-                                <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
-                                <div class="pigment-grid" data-row-index="9"></div>
-                            </td>
-                        </tr>
-                        <tr class="large-check">
-                            <td><input type="text" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                            <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="6" style="padding-top:0; border-top:none;">
-                                <label style="font-size:0.75em; display:block; margin-top:2px;">Pigments:</label>
-                                <select multiple data-version="3" style="font-size:0.75em; height:50px;">
-                                    <option>Antique Gold Pigment</option>
-                                    <option>Anthraquinone Pigment</option>
-                                    <option>Azo FGL Pigment</option>
-                                    <option>Azo Lemon Yellow-74 Pigment</option>
-                                    <option>Blue-15 Pigment</option>
-                                    <option>Bone Black Pigment</option>
-                                    <option>Brilliant Gold Pigment</option>
-                                    <option>Brown Oxide Pigment</option>
-                                    <option>Burnt Sienna Pigment</option>
-                                    <option>Burnt Umber Pigment</option>
-                                    <option>Cadmium Litho Golden Pigment</option>
-                                    <option>Cadmium Orange Dark Pigment</option>
-                                    <option>Cadmium Red Light Pigment</option>
-                                    <option>Cadmium Red Medium Pigment</option>
-                                    <option>Cadmium Yellow Light Pigment</option>
-                                    <option>Carbon Black Pigment</option>
-                                    <option>Carbon Black-7 Pigment</option>
-                                    <option>Cerulean Medium Pigment</option>
-                                    <option>Chromium Oxide Light Pigment</option>
-                                    <option>Fluorescent Blue Pigment</option>
-                                    <option>Fluorescent Green Pigment</option>
-                                    <option>Fluorescent Orange Pigment</option>
-                                    <option>Fluorescent Pink Pigment</option>
-                                    <option>Fluorescent Red Pigment</option>
-                                    <option>Fluorescent Yellow Pigment</option>
-                                    <option>Golden Bronze Pigment</option>
-                                    <option>Intense Copper Pigment</option>
-                                    <option>Luminous Silver Pigment</option>
-                                    <option>Napthol Red Light Pigment</option>
-                                    <option>Napthol Red Pigment</option>
-                                    <option>Pearlescent White Pigment</option>
-                                    <option>Pthalo Epsilon Pigment</option>
-                                    <option>Pthalo Green Blue Pigment</option>
-                                    <option>Quindo Red Violet-19 Pigment</option>
-                                    <option>Raw Umber Pigment</option>
-                                    <option>Red-101 Pigment</option>
-                                    <option>Supersparkle Pigment</option>
-                                    <option>Titanium White Pigment</option>
-                                    <option>Translucent White Pigment</option>
-                                    <option>Ultramarine Blue-29 Pigment</option>
-                                    <option>Ultramarine Medium Pigment</option>
-                                    <option>Violet-23 Pigment</option>
-                                    <option>Yellow-42 Ochre Pigment</option>
-                                    <option>Yellow-83 Pigment</option>
-                                </select>
-                            </td>
-                        </tr>
+                        <tbody id="pigmentingBody">
+                            <!-- Rows 1-5 -->
+                            <tr class="large-check">
+                                <td><input type="text" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
+                                    <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
+                                    <div class="pigment-grid"></div>
+                                </td>
+                            </tr>
+                            <tr class="large-check">
+                                <td><input type="text" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
+                                    <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
+                                    <div class="pigment-grid"></div>
+                                </td>
+                            </tr>
+                            <tr class="large-check">
+                                <td><input type="text" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
+                                    <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
+                                    <div class="pigment-grid"></div>
+                                </td>
+                            </tr>
+                            <tr class="large-check">
+                                <td><input type="text" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
+                                    <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
+                                    <div class="pigment-grid"></div>
+                                </td>
+                            </tr>
+                            <tr class="large-check">
+                                <td><input type="text" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
+                                    <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
+                                    <div class="pigment-grid"></div>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
+                    <button class="add no-print" onclick="addPigmentRow()">+ Add Color</button>
+                    <input type="number" id="pigmentRowCount" data-version="3" value="0" style="display:none;">
+                </div>
                 </div>
 
                 <div class="print-section">
@@ -1009,6 +886,66 @@
             for (let i = 7; i < rows.length; i++) {
                 table.removeChild(rows[i]);
             }
+            const countInput = document.getElementById('pulpRowCount');
+            if (countInput) countInput.value = 0;
+        }
+
+        function resetPigmentTable() {
+            const body = document.getElementById('pigmentingBody');
+            if (!body) return;
+            const rows = body.querySelectorAll('tr');
+            for (let i = 10; i < rows.length; i++) {
+                body.removeChild(rows[i]);
+            }
+            const countInput = document.getElementById('pigmentRowCount');
+            if (countInput) countInput.value = 0;
+        }
+
+        function addPulpRow() {
+            const table = document.getElementById('pulpTable');
+            const row = document.createElement('tr');
+            row.className = 'large-check';
+            row.innerHTML = `
+    <td class="checkbox-cell"><input type="text" class="qty-input"></td>
+    <td><input type="text" placeholder="Fiber type"></td>
+    <td><input type="text"></td>
+    <td><textarea rows="1"></textarea></td>
+  `;
+            table.appendChild(row);
+            const countInput = document.getElementById('pulpRowCount');
+            if (countInput) countInput.value = parseInt(countInput.value || 0) + 1;
+        }
+
+        function addPigmentRow() {
+            const body = document.getElementById('pigmentingBody');
+            if (!body) return;
+            
+            const tr1 = document.createElement('tr');
+            tr1.className = 'large-check';
+            tr1.innerHTML = `
+                <td><input type="text" data-version="3"></td>
+                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+                <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
+            `;
+            
+            const tr2 = document.createElement('tr');
+            tr2.innerHTML = `
+                <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
+                    <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
+                    <div class="pigment-grid"></div>
+                </td>
+            `;
+            
+            body.appendChild(tr1);
+            body.appendChild(tr2);
+            
+            const countInput = document.getElementById('pigmentRowCount');
+            if (countInput) countInput.value = parseInt(countInput.value || 0) + 1;
+            
+            buildPigmentGrids();
         }
 
         function loadProject(name) {
@@ -1017,14 +954,17 @@
             const data = projectObj.data || [];
             
             resetPulpTable();
+            resetPigmentTable();
             
-            const numExtraInputs = data.length - defaultNumInputs;
-            if (numExtraInputs > 0 && numExtraInputs % 4 === 0) {
-                const rowsToAdd = numExtraInputs / 4;
-                for (let i = 0; i < rowsToAdd; i++) {
-                    addPulpRow();
-                }
-            }
+            const inputsPre = getOrderedInputs();
+            const pulpIdx = inputsPre.findIndex(i => i.id === 'pulpRowCount');
+            const pigIdx = inputsPre.findIndex(i => i.id === 'pigmentRowCount');
+            
+            const extraPulp = (pulpIdx !== -1 && data[pulpIdx]) ? parseInt(data[pulpIdx]) : 0;
+            const extraPig = (pigIdx !== -1 && data[pigIdx]) ? parseInt(data[pigIdx]) : 0;
+
+            for (let i = 0; i < extraPulp; i++) addPulpRow();
+            for (let i = 0; i < extraPig; i++) addPigmentRow();
             
             const inputs = getOrderedInputs();
             inputs.forEach((i, idx) => {
@@ -1161,19 +1101,6 @@
             
             if (btn) btn.innerText = originalText;
             alert('Project deleted.');
-        }
-
-        function addPulpRow() {
-            const table = document.getElementById('pulpTable');
-            const row = document.createElement('tr');
-            row.className = 'large-check';
-            row.innerHTML = `
-    <td class="checkbox-cell"><input type="text" class="qty-input"></td>
-    <td><input type="text" placeholder="Fiber type"></td>
-    <td><input type="text"></td>
-    <td><textarea rows="1"></textarea></td>
-  `;
-            table.appendChild(row);
         }
 
         function buildPigmentGrids() {
