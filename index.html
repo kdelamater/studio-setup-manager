@@ -142,6 +142,20 @@
             text-align: center
         }
 
+        #pigmentingBody {
+            counter-reset: color-row;
+        }
+
+        #pigmentingBody tr.large-check {
+            counter-increment: color-row;
+        }
+
+        .color-num::before {
+            content: counter(color-row);
+            font-weight: bold;
+            color: #666;
+        }
+
         #pigmentingTable th {
             position: sticky;
             top: 0;
@@ -438,6 +452,7 @@
                     <div class="pigment-table-wrapper">
                         <table id="pigmentingTable">
                             <tr>
+                                <th style="width:30px">#</th>
                                 <th>Color Name</th>
                                 <th style="width:60px">Abaca</th>
                                 <th style="width:60px">Standard</th>
@@ -448,6 +463,7 @@
                             <tbody id="pigmentingBody">
                                 <!-- Rows 1-3 -->
                                 <tr class="large-check">
+                                    <td class="color-num" style="text-align:center; vertical-align:middle;"></td>
                                     <td><input type="text" data-version="3"></td>
                                     <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
                                     <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
@@ -456,12 +472,13 @@
                                     <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
+                                    <td colspan="7" style="padding:4px 8px 8px 8px; border-top:none;">
                                         <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
                                         <div class="pigment-grid"></div>
                                     </td>
                                 </tr>
                                 <tr class="large-check">
+                                    <td class="color-num" style="text-align:center; vertical-align:middle;"></td>
                                     <td><input type="text" data-version="3"></td>
                                     <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
                                     <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
@@ -470,12 +487,13 @@
                                     <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
+                                    <td colspan="7" style="padding:4px 8px 8px 8px; border-top:none;">
                                         <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
                                         <div class="pigment-grid"></div>
                                     </td>
                                 </tr>
                                 <tr class="large-check">
+                                    <td class="color-num" style="text-align:center; vertical-align:middle;"></td>
                                     <td><input type="text" data-version="3"></td>
                                     <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
                                     <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
@@ -484,7 +502,7 @@
                                     <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
+                                    <td colspan="7" style="padding:4px 8px 8px 8px; border-top:none;">
                                         <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
                                         <div class="pigment-grid"></div>
                                     </td>
@@ -949,6 +967,7 @@
             const tr1 = document.createElement('tr');
             tr1.className = 'large-check';
             tr1.innerHTML = `
+                <td class="color-num" style="text-align:center; vertical-align:middle;"></td>
                 <td><input type="text" data-version="3"></td>
                 <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
                 <td class="checkbox-cell"><input type="checkbox" data-version="3"></td>
@@ -959,7 +978,7 @@
             
             const tr2 = document.createElement('tr');
             tr2.innerHTML = `
-                <td colspan="6" style="padding:4px 8px 8px 8px; border-top:none;">
+                <td colspan="7" style="padding:4px 8px 8px 8px; border-top:none;">
                     <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:4px;">Select Pigments:</label>
                     <div class="pigment-grid"></div>
                 </td>
@@ -1077,14 +1096,17 @@
                                 const notes = notesInput ? notesInput.value.trim() : '';
                                 if (notes) rowText.push('- Note: ' + notes);
                             } else {
-                                const name = tds[1] ? tds[1].innerText.trim() : '';
+                                const isPigmenting = tableId === 'pigmentingTable';
+                                const nameIdx = isPigmenting ? 2 : 1;
+                                const name = tds[nameIdx] ? tds[nameIdx].innerText.trim() : '';
                                 if (name) rowText.push(name);
                                 
                                 if (['mouldsTable', 'pigmentTable'].includes(tableId) && qty) {
                                     rowText.push('(' + qty + ')');
                                 }
                                 
-                                const notesInput = tds[2] ? tds[2].querySelector('textarea, input') : null;
+                                const notesIdx = isPigmenting ? 3 : 2;
+                                const notesInput = tds[notesIdx] ? tds[notesIdx].querySelector('textarea, input') : null;
                                 const notes = notesInput ? notesInput.value.trim() : '';
                                 if (notes) rowText.push('- Note: ' + notes);
                             }
@@ -1097,7 +1119,7 @@
 
             const summaries = {
                 "Pulp Prep Summary": buildSummary('pulpTable'),
-                "Pigments Summary": buildSummary('pigmentTable'),
+                "Pigments Summary": (buildSummary('pigmentingTable') + '\n' + buildSummary('pigmentTable')).trim(),
                 "Moulds & Deckles Summary": buildSummary('mouldsTable'),
                 "Techniques Summary": buildSummary('techniquesTable'),
                 "Setup Summary": buildSummary('setupTable')
