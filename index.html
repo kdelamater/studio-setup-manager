@@ -571,7 +571,8 @@
                                     <label><input type="checkbox" data-version="3"> Standard</label>
                                     <label><input type="checkbox" data-version="3"> Short</label>
                                     <label><input type="checkbox" data-version="3"> Pulp Paint</label>
-                                    <label><input type="checkbox" data-version="3"> Other</label>
+                                    <label><input type="checkbox" data-version="3" onchange="this.parentElement.nextElementSibling.style.display = this.checked ? 'inline-block' : 'none'"> Other</label>
+                                    <input type="text" data-version="3" placeholder="Specify..." style="display:none; width:120px; font-size:0.85em; margin-left:5px; height:24px; padding:2px 6px;">
                                 </div>
                                 <div class="pigment-grid-wrapper">
                                     <details class="pigment-details">
@@ -591,7 +592,8 @@
                                     <label><input type="checkbox" data-version="3"> Standard</label>
                                     <label><input type="checkbox" data-version="3"> Short</label>
                                     <label><input type="checkbox" data-version="3"> Pulp Paint</label>
-                                    <label><input type="checkbox" data-version="3"> Other</label>
+                                    <label><input type="checkbox" data-version="3" onchange="this.parentElement.nextElementSibling.style.display = this.checked ? 'inline-block' : 'none'"> Other</label>
+                                    <input type="text" data-version="3" placeholder="Specify..." style="display:none; width:120px; font-size:0.85em; margin-left:5px; height:24px; padding:2px 6px;">
                                 </div>
                                 <div class="pigment-grid-wrapper">
                                     <details class="pigment-details">
@@ -1089,7 +1091,8 @@
                     <label><input type="checkbox" data-version="3"> Standard</label>
                     <label><input type="checkbox" data-version="3"> Short</label>
                     <label><input type="checkbox" data-version="3"> Pulp Paint</label>
-                    <label><input type="checkbox" data-version="3"> Other</label>
+                    <label><input type="checkbox" data-version="3" onchange="this.parentElement.nextElementSibling.style.display = this.checked ? 'inline-block' : 'none'"> Other</label>
+                    <input type="text" data-version="3" placeholder="Specify..." style="display:none; width:120px; font-size:0.85em; margin-left:5px; height:24px; padding:2px 6px;">
                 </div>
                 <div class="pigment-grid-wrapper">
                     <details class="pigment-details">
@@ -1142,6 +1145,15 @@
                     else i.value = '';
                 }
             });
+            // Restore Other text input visibility
+            document.querySelectorAll('.color-section-fibers').forEach(div => {
+                const cb = div.querySelector('input[onchange]');
+                const txt = div.querySelector('input[type="text"]');
+                if (cb && txt) {
+                    txt.style.display = cb.checked ? 'inline-block' : 'none';
+                }
+            });
+            
             syncAllTextareas();
             renderProjects();
         }
@@ -1186,7 +1198,14 @@
                             fiberLabels.forEach(label => {
                                 const cb = label.querySelector('input');
                                 if (cb && cb.checked) {
-                                    fibers.push(label.innerText.trim());
+                                    let fiberName = label.innerText.trim();
+                                    if (fiberName === 'Other') {
+                                        const otherInput = label.parentElement.querySelector('input[type="text"]');
+                                        if (otherInput && otherInput.value.trim()) {
+                                            fiberName += ': ' + otherInput.value.trim();
+                                        }
+                                    }
+                                    fibers.push(fiberName);
                                 }
                             });
                             if (fibers.length > 0) rowText.push('(' + fibers.join(', ') + ')');
