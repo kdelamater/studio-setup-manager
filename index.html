@@ -142,14 +142,10 @@
             text-align: center
         }
 
-        #pigmentingBody {
-            counter-reset: color-row;
-        }
-
-        .color-num::before {
-            content: counter(color-row) ":";
+        .color-num {
             font-weight: bold;
             color: #374151;
+            min-width: 25px;
         }
 
         #pigmentingTable th {
@@ -167,7 +163,6 @@
         }
 
         .color-section {
-            counter-increment: color-row;
             border: 1px solid #eee;
             border-radius: 8px;
             padding: 15px;
@@ -608,8 +603,8 @@
                             <div class="color-section">
                                 <div class="color-section-header">
                                     <span class="color-num"></span>
-                                    <label>Pantone / Label:</label>
-                                    <input type="text" data-version="3" placeholder="Enter Pantone or Label...">
+                                    <label>Pantone / Color Name:</label>
+                                    <input type="text" data-version="3" placeholder="Enter Pantone or Color Name...">
                                 </div>
                                 <div class="color-section-fibers">
                                     <label><input type="checkbox" data-version="3"> Abaca</label>
@@ -1109,6 +1104,7 @@
             const countInput = document.getElementById('pigmentRowCount');
             if (countInput) countInput.value = parseInt(countInput.value || 0) + 1;
             
+            updateColorNumbers();
             buildPigmentGrids();
         }
 
@@ -1341,8 +1337,18 @@
             }
         });
 
+        function updateColorNumbers() {
+            const body = document.getElementById('pigmentingBody');
+            if (!body) return;
+            const spans = body.querySelectorAll('.color-num');
+            spans.forEach((span, i) => {
+                span.innerText = (i + 1) + ":";
+            });
+        }
+
         async function init() {
             buildPigmentGrids();
+            updateColorNumbers();
             defaultNumInputs = getOrderedInputs().length;
             await fetchProjects();
             renderProjects();
