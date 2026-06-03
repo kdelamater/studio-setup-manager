@@ -219,14 +219,55 @@
         }
 
         .pigment-grid {
-            height: 110px;
+            height: 150px;
             overflow-y: auto;
             border: 1px solid #ddd;
-            padding: 6px;
+            padding: 8px;
             background: #fafafa;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 4px;
+            gap: 6px;
+            border-radius: 4px;
+        }
+
+        .pigment-details {
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #fff;
+            margin-top: 5px;
+        }
+
+        .pigment-details summary {
+            padding: 10px 12px;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #374151;
+            user-select: none;
+        }
+
+        .pigment-details summary::after {
+            content: '▼';
+            font-size: 0.8em;
+            color: #9ca3af;
+            transition: transform 0.2s;
+        }
+
+        .pigment-details[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        .pigment-details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .pigment-grid label:hover {
+            background: #f3f4f6;
+            border-radius: 4px;
         }
 
         .actions {
@@ -339,13 +380,18 @@
                 background: transparent !important;
                 padding: 4px 0 !important;
             }
-            .pigment-grid {
-                height: auto !important;
-                max-height: none !important;
-                overflow: visible !important;
-                background: white !important;
+            .pigment-details {
                 border: none !important;
-                display: block !important; /* Stack them for print to save width/ensure visibility */
+            }
+            .pigment-details summary {
+                display: none !important;
+            }
+            .pigment-details[open] .pigment-grid, 
+            .pigment-details .pigment-grid {
+                display: block !important;
+                height: auto !important;
+                border: none !important;
+                padding: 0 !important;
             }
             .pigment-grid label {
                 display: inline-block !important;
@@ -523,8 +569,10 @@
                                     <label><input type="checkbox" data-version="3"> Other</label>
                                 </div>
                                 <div class="pigment-grid-wrapper">
-                                    <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:6px;">Select Pigments:</label>
-                                    <div class="pigment-grid"></div>
+                                    <details class="pigment-details">
+                                        <summary>Select Pigments (0 selected)</summary>
+                                        <div class="pigment-grid"></div>
+                                    </details>
                                 </div>
                             </div>
                             <div class="color-section">
@@ -541,8 +589,10 @@
                                     <label><input type="checkbox" data-version="3"> Other</label>
                                 </div>
                                 <div class="pigment-grid-wrapper">
-                                    <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:6px;">Select Pigments:</label>
-                                    <div class="pigment-grid"></div>
+                                    <details class="pigment-details">
+                                        <summary>Select Pigments (0 selected)</summary>
+                                        <div class="pigment-grid"></div>
+                                    </details>
                                 </div>
                             </div>
                             <div class="color-section">
@@ -559,8 +609,10 @@
                                     <label><input type="checkbox" data-version="3"> Other</label>
                                 </div>
                                 <div class="pigment-grid-wrapper">
-                                    <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:6px;">Select Pigments:</label>
-                                    <div class="pigment-grid"></div>
+                                    <details class="pigment-details">
+                                        <summary>Select Pigments (0 selected)</summary>
+                                        <div class="pigment-grid"></div>
+                                    </details>
                                 </div>
                             </div>
                         </div>
@@ -1035,8 +1087,10 @@
                     <label><input type="checkbox" data-version="3"> Other</label>
                 </div>
                 <div class="pigment-grid-wrapper">
-                    <label style="font-size:0.75em; font-weight:bold; display:block; margin-bottom:6px;">Select Pigments:</label>
-                    <div class="pigment-grid"></div>
+                    <details class="pigment-details">
+                        <summary>Select Pigments (0 selected)</summary>
+                        <div class="pigment-grid"></div>
+                    </details>
                 </div>
             `;
             
@@ -1259,6 +1313,24 @@
             });
         }
 
+        function updatePigmentCount(grid) {
+            const count = grid.querySelectorAll('input:checked').length;
+            const details = grid.closest('details');
+            if (details) {
+                const summary = details.querySelector('summary');
+                if (summary) {
+                    summary.innerText = `Select Pigments (${count} selected)`;
+                }
+            }
+        }
+
+        // Add event listener for any pigment change
+        document.addEventListener('change', (e) => {
+            if (e.target.closest('.pigment-grid')) {
+                updatePigmentCount(e.target.closest('.pigment-grid'));
+            }
+        });
+
         async function init() {
             buildPigmentGrids();
             defaultNumInputs = getOrderedInputs().length;
@@ -1272,13 +1344,14 @@
                 }
             });
             
+            // Initial counts
+            document.querySelectorAll('.pigment-grid').forEach(updatePigmentCount);
+            
             // Initial sync
             syncAllTextareas();
         }
 
         init();
     </script>
-
 </body>
-
 </html>
