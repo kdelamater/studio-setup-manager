@@ -146,14 +146,10 @@
             counter-reset: color-row;
         }
 
-        #pigmentingBody tr.large-check {
-            counter-increment: color-row;
-        }
-
         .color-num::before {
-            content: counter(color-row);
+            content: "Color #" counter(color-row) ":";
             font-weight: bold;
-            color: #666;
+            color: #374151;
         }
 
         #pigmentingTable th {
@@ -171,6 +167,7 @@
         }
 
         .color-section {
+            counter-increment: color-row;
             border: 1px solid #eee;
             border-radius: 8px;
             padding: 15px;
