@@ -94,7 +94,8 @@
             padding: 8px;
             margin-top: 4px;
             border: 1px solid #ccc;
-            border-radius: 6px
+            border-radius: 6px;
+            field-sizing: content;
         }
 
         table {
@@ -240,7 +241,8 @@
                 padding: 2px;
                 font-size: 11px;
                 resize: none;
-                height: auto;
+                height: auto !important;
+                overflow: hidden;
             }
             .large-check input[type=checkbox] {
                 -webkit-appearance: none;
@@ -633,7 +635,17 @@
     </div>
 
     <script>
-                function getOrderedInputs() {
+                function syncTextareaHeight(el) {
+            if (!el || el.tagName !== 'TEXTAREA') return;
+            el.style.height = 'auto';
+            el.style.height = el.scrollHeight + 'px';
+        }
+
+        function syncAllTextareas() {
+            document.querySelectorAll('textarea').forEach(syncTextareaHeight);
+        }
+
+        function getOrderedInputs() {
             const oldInputs = Array.from(document.querySelectorAll('input:not([data-version="2"]):not([data-version="3"]):not([data-ignore="true"]), textarea:not([data-version="2"]):not([data-version="3"]):not([data-ignore="true"]), select:not([data-version="2"]):not([data-version="3"]):not([data-ignore="true"])'));
             const midInputs = Array.from(document.querySelectorAll('[data-version="2"]'));
             const newInputs = Array.from(document.querySelectorAll('[data-version="3"]'));
@@ -817,6 +829,7 @@
                     else i.value = '';
                 }
             });
+            syncAllTextareas();
             renderProjects();
         }
 
@@ -956,6 +969,16 @@
             defaultNumInputs = getOrderedInputs().length;
             await fetchProjects();
             renderProjects();
+            
+            // Listen for input events to auto-resize textareas
+            document.addEventListener('input', (e) => {
+                if (e.target.tagName === 'TEXTAREA') {
+                    syncTextareaHeight(e.target);
+                }
+            });
+            
+            // Initial sync
+            syncAllTextareas();
         }
 
         init();
