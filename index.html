@@ -26,7 +26,19 @@
         }
 
         .sidebar h2 {
-            margin-top: 0
+            margin-top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2em;
+        }
+
+        #itemCount {
+            font-size: 0.6em;
+            background: rgba(255,255,255,0.1);
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: normal;
         }
 
         .project {
@@ -62,7 +74,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            color: #9ca3af;
+            color: white;
             transition: all 0.2s;
         }
 
@@ -548,8 +560,8 @@
     <div class="app">
 
         <div class="sidebar">
-            <h2>Studio Projects</h2>
-            <button class="new-btn" onclick="createProject()">+ New Artist / Project</button>
+            <h2>Projects <span id="itemCount">0</span></h2>
+            <button class="new-btn" onclick="createProject()">+ Create New Project</button>
             <div id="projectList"></div>
         </div>
 
@@ -1057,37 +1069,37 @@
 
         function renderProjects() {
             const list = document.getElementById('projectList');
+            const countSpan = document.getElementById('itemCount');
             if (!list) return;
             list.innerHTML = '';
 
+            const allNames = Object.keys(cachedProjects);
+            if (countSpan) countSpan.innerText = allNames.length;
+
             const groups = {};
-            // Sort by project name
-            const names = Object.keys(cachedProjects).sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
+            const names = allNames.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
 
             names.forEach(name => {
-                // Heuristic: take everything before the first '(' or ' -'
                 let artistBase = name.split('(')[0].split(' -')[0].trim();
-                // Fallback for names without delimiters
                 if (!artistBase) artistBase = "Uncategorized";
                 
                 if (!groups[artistBase]) groups[artistBase] = [];
                 groups[artistBase].push(name);
             });
 
+            console.log("Project Groups:", groups);
+
             const sortedArtistBases = Object.keys(groups).sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
 
             sortedArtistBases.forEach(artistBase => {
                 const projectsInGroup = groups[artistBase];
                 
-                // If there's only one project AND its name is exactly the artist name, keep it flat
                 if (projectsInGroup.length === 1 && projectsInGroup[0] === artistBase) {
                     renderProjectItem(projectsInGroup[0], list);
                 } else {
-                    // It's a folder (multiple projects OR single project with descriptive name)
                     const details = document.createElement('details');
                     details.className = 'sidebar-folder';
                     
-                    // Auto-open if the current project is in this group
                     if (projectsInGroup.includes(currentProject)) {
                         details.open = true;
                     }
