@@ -1061,38 +1061,45 @@
             list.innerHTML = '';
 
             const groups = {};
-            const names = Object.keys(cachedProjects).sort((a, b) => {
-                return a.toLowerCase().localeCompare(b.toLowerCase());
-            });
+            // Sort by project name
+            const names = Object.keys(cachedProjects).sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
 
             names.forEach(name => {
-                let groupName = name.split(' (')[0].split(' - ')[0].trim();
-                if (!groups[groupName]) groups[groupName] = [];
-                groups[groupName].push(name);
-            });
-
-            const groupKeys = Object.keys(groups).sort((a, b) => {
-                return a.toLowerCase().localeCompare(b.toLowerCase());
-            });
-
-            groupKeys.forEach(groupName => {
-                const projects = groups[groupName];
+                // Heuristic: take everything before the first '(' or ' -'
+                let artistBase = name.split('(')[0].split(' -')[0].trim();
+                // Fallback for names without delimiters
+                if (!artistBase) artistBase = "Uncategorized";
                 
-                if (projects.length === 1 && projects[0] === groupName) {
-                    renderProjectItem(projects[0], list);
+                if (!groups[artistBase]) groups[artistBase] = [];
+                groups[artistBase].push(name);
+            });
+
+            const sortedArtistBases = Object.keys(groups).sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
+
+            sortedArtistBases.forEach(artistBase => {
+                const projectsInGroup = groups[artistBase];
+                
+                // If there's only one project AND its name is exactly the artist name, keep it flat
+                if (projectsInGroup.length === 1 && projectsInGroup[0] === artistBase) {
+                    renderProjectItem(projectsInGroup[0], list);
                 } else {
+                    // It's a folder (multiple projects OR single project with descriptive name)
                     const details = document.createElement('details');
                     details.className = 'sidebar-folder';
-                    if (projects.includes(currentProject)) details.open = true;
+                    
+                    // Auto-open if the current project is in this group
+                    if (projectsInGroup.includes(currentProject)) {
+                        details.open = true;
+                    }
 
                     const summary = document.createElement('summary');
-                    summary.innerText = groupName;
+                    summary.innerText = artistBase;
                     details.appendChild(summary);
 
                     const folderItems = document.createElement('div');
                     folderItems.className = 'sidebar-folder-items';
                     
-                    projects.forEach(projectName => {
+                    projectsInGroup.forEach(projectName => {
                         renderProjectItem(projectName, folderItems);
                     });
 
