@@ -45,7 +45,7 @@ module.exports = async function handler(req, res) {
             "Assistants": typeof asst === 'string' ? asst : '',
             "Notes": typeof notes === 'string' ? notes : '',
             "Pulp Prep Summary": summaries["Pulp Prep Summary"] || '',
-            "Pigments Summary": summaries["Pigments Summary"] || '',
+            "Additives Summary": summaries["Additives Summary"] || '',
             "Techniques Summary": summaries["Techniques Summary"] || '',
             "Setup Summary": summaries["Setup Summary"] || '',
             "Moulds & Deckles Summary": summaries["Moulds & Deckles Summary"] || '',
