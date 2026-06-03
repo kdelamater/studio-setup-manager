@@ -292,6 +292,11 @@
             color: white
         }
 
+        .save-copy {
+            background: #8b5cf6;
+            color: white;
+        }
+
         .qty-input {
             width: 40px !important;
             text-align: center;
@@ -873,6 +878,7 @@
                 <div class="actions">
                     <button class="print" onclick="window.print()">Export Setup Sheet (PDF)</button>
                     <button class="save" onclick="saveProject()">Save Project</button>
+                    <button class="save-copy" onclick="saveAsCopy()">Save as New Copy</button>
                     <button class="delete-btn" onclick="deleteProject()" style="background: #ef4444; color: white;">Delete Project</button>
                 </div>
 
@@ -1158,6 +1164,108 @@
             renderProjects();
         }
 
+        function buildSummary(tableId) {
+            const container = document.getElementById(tableId);
+            if (!container) return '';
+            let summary = [];
+            
+            if (tableId === 'pigmentingTable') {
+                const sections = document.querySelectorAll('.color-section');
+                sections.forEach(section => {
+                    const inputs = section.querySelectorAll('input');
+                    const nameInput = inputs[0];
+                    const name = nameInput.value.trim();
+                    
+                    if (name) {
+                        let rowText = [name];
+                        const fiberLabels = section.querySelectorAll('.color-section-fibers label');
+                        let fibers = [];
+                        fiberLabels.forEach(label => {
+                            const cb = label.querySelector('input');
+                            if (cb && cb.checked) {
+                                let fiberName = label.innerText.trim();
+                                if (fiberName === 'Other') {
+                                    const otherInput = label.parentElement.querySelector('input[type="text"]');
+                                    if (otherInput && otherInput.value.trim()) {
+                                        fiberName += ': ' + otherInput.value.trim();
+                                    }
+                                }
+                                fibers.push(fiberName);
+                            }
+                        });
+                        if (fibers.length > 0) rowText.push('(' + fibers.join(', ') + ')');
+                        summary.push('- ' + rowText.join(' '));
+                    }
+                });
+            } else {
+                const rows = container.querySelectorAll('.large-check');
+                rows.forEach(row => {
+                    const inputs = row.querySelectorAll('input, select, textarea');
+                    if (inputs.length > 0) {
+                        const firstInput = inputs[0];
+                        let isActive = false;
+                        
+                        if (firstInput.type === 'checkbox') {
+                            isActive = firstInput.checked;
+                            if (firstInput.getAttribute('data-always-note') === 'true') {
+                                const notesInput = row.querySelector('textarea, input:last-of-type');
+                                if (notesInput && notesInput.value.trim() !== '') {
+                                    isActive = true;
+                                }
+                            }
+                        } else if (firstInput.type === 'text') {
+                            isActive = firstInput.value.trim() !== '';
+                        }
+                        
+                        if (isActive) {
+                            let rowText = [];
+                            const tds = row.querySelectorAll('td');
+                            
+                            const qty = firstInput.value.trim();
+                            
+                            if (tableId === 'pulpTable') {
+                                const nameInput = tds[1].querySelector('input');
+                                const name = nameInput ? nameInput.value.trim() : tds[1].innerText.trim();
+                                
+                                let fullName = qty ? qty + ' ' + name : name;
+                                if (fullName) rowText.push(fullName);
+                                
+                                const amountInput = tds[2].querySelector('input');
+                                const amount = amountInput ? amountInput.value.trim() : '';
+                                if (amount) rowText.push('(' + amount + ')');
+                                
+                                const notesInput = tds[3].querySelector('textarea, input');
+                                const notes = notesInput ? notesInput.value.trim() : '';
+                                if (notes) rowText.push('- Note: ' + notes);
+                            } else {
+                                const name = tds[1] ? tds[1].innerText.trim() : '';
+                                if (name) rowText.push(name);
+                                
+                                if (['mouldsTable', 'pigmentTable'].includes(tableId) && qty) {
+                                    rowText.push('(' + qty + ')');
+                                }
+                                
+                                const notesInput = tds[2] ? tds[2].querySelector('textarea, input') : null;
+                                const notes = notesInput ? notesInput.value.trim() : '';
+                                if (notes) rowText.push('- Note: ' + notes);
+                            }
+                            summary.push('- ' + rowText.join(' '));
+                        }
+                    }
+                });
+            }
+            return summary.join('\n');
+        }
+
+        async function saveProjectToAPI(name, data, summaries, recordId) {
+            const response = await fetch('/api/projects', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ currentProject: name, data, summaries, recordId })
+            });
+            return response;
+        }
+
         async function saveProject() {
             if (!currentProject) {
                 alert('Create or select a project first.');
@@ -1166,7 +1274,6 @@
 
             const inputs = getOrderedInputs();
             const data = [];
-
             inputs.forEach(i => {
                 if (i.type === 'checkbox') data.push(i.checked);
                 else data.push(i.value);
@@ -1175,101 +1282,6 @@
             let recordId = null;
             if (cachedProjects[currentProject] && cachedProjects[currentProject].recordId) {
                 recordId = cachedProjects[currentProject].recordId;
-            }
-
-            cachedProjects[currentProject] = { data: data, recordId: recordId };
-            
-            function buildSummary(tableId) {
-                const container = document.getElementById(tableId);
-                if (!container) return '';
-                let summary = [];
-                
-                if (tableId === 'pigmentingTable') {
-                    const sections = document.querySelectorAll('.color-section');
-                    sections.forEach(section => {
-                        const inputs = section.querySelectorAll('input');
-                        const nameInput = inputs[0];
-                        const name = nameInput.value.trim();
-                        
-                        if (name) {
-                            let rowText = [name];
-                            const fiberLabels = section.querySelectorAll('.color-section-fibers label');
-                            let fibers = [];
-                            fiberLabels.forEach(label => {
-                                const cb = label.querySelector('input');
-                                if (cb && cb.checked) {
-                                    let fiberName = label.innerText.trim();
-                                    if (fiberName === 'Other') {
-                                        const otherInput = label.parentElement.querySelector('input[type="text"]');
-                                        if (otherInput && otherInput.value.trim()) {
-                                            fiberName += ': ' + otherInput.value.trim();
-                                        }
-                                    }
-                                    fibers.push(fiberName);
-                                }
-                            });
-                            if (fibers.length > 0) rowText.push('(' + fibers.join(', ') + ')');
-                            summary.push('- ' + rowText.join(' '));
-                        }
-                    });
-                } else {
-                    const rows = container.querySelectorAll('.large-check');
-                    rows.forEach(row => {
-                        const inputs = row.querySelectorAll('input, select, textarea');
-                        if (inputs.length > 0) {
-                            const firstInput = inputs[0];
-                            let isActive = false;
-                            
-                            if (firstInput.type === 'checkbox') {
-                                isActive = firstInput.checked;
-                                if (firstInput.getAttribute('data-always-note') === 'true') {
-                                    const notesInput = row.querySelector('textarea, input:last-of-type');
-                                    if (notesInput && notesInput.value.trim() !== '') {
-                                        isActive = true;
-                                    }
-                                }
-                            } else if (firstInput.type === 'text') {
-                                isActive = firstInput.value.trim() !== '';
-                            }
-                            
-                            if (isActive) {
-                                let rowText = [];
-                                const tds = row.querySelectorAll('td');
-                                
-                                const qty = firstInput.value.trim();
-                                
-                                if (tableId === 'pulpTable') {
-                                    const nameInput = tds[1].querySelector('input');
-                                    const name = nameInput ? nameInput.value.trim() : tds[1].innerText.trim();
-                                    
-                                    let fullName = qty ? qty + ' ' + name : name;
-                                    if (fullName) rowText.push(fullName);
-                                    
-                                    const amountInput = tds[2].querySelector('input');
-                                    const amount = amountInput ? amountInput.value.trim() : '';
-                                    if (amount) rowText.push('(' + amount + ')');
-                                    
-                                    const notesInput = tds[3].querySelector('textarea, input');
-                                    const notes = notesInput ? notesInput.value.trim() : '';
-                                    if (notes) rowText.push('- Note: ' + notes);
-                                } else {
-                                    const name = tds[1] ? tds[1].innerText.trim() : '';
-                                    if (name) rowText.push(name);
-                                    
-                                    if (['mouldsTable', 'pigmentTable'].includes(tableId) && qty) {
-                                        rowText.push('(' + qty + ')');
-                                    }
-                                    
-                                    const notesInput = tds[2] ? tds[2].querySelector('textarea, input') : null;
-                                    const notes = notesInput ? notesInput.value.trim() : '';
-                                    if (notes) rowText.push('- Note: ' + notes);
-                                }
-                                summary.push('- ' + rowText.join(' '));
-                            }
-                        }
-                    });
-                }
-                return summary.join('\n');
             }
 
             const summaries = {
@@ -1284,10 +1296,70 @@
             const originalText = btn.innerText;
             btn.innerText = 'Saving...';
             
-            await saveProjectToAPI(currentProject, data, summaries, recordId);
+            const response = await saveProjectToAPI(currentProject, data, summaries, recordId);
             
-            btn.innerText = originalText;
-            alert('Project saved to Airtable!');
+            if (btn) btn.innerText = originalText;
+
+            if (response.ok) {
+                alert('Project saved successfully!');
+                await fetchProjects();
+                renderProjects();
+            } else {
+                alert('Failed to save project.');
+            }
+        }
+
+        async function saveAsCopy() {
+            if (!currentProject) {
+                alert('Select or load a project first so we know what to copy.');
+                return;
+            }
+            
+            const dateStr = new Date().toLocaleDateString();
+            const defaultName = currentProject + " (Copy " + dateStr + ")";
+            const newName = prompt("Enter a name for this new copy:", defaultName);
+            
+            if (!newName) return;
+            if (newName === currentProject) {
+                alert("Please choose a different name for the copy.");
+                return;
+            }
+            if (cachedProjects[newName]) {
+                alert("A project with that name already exists. Please use a unique name.");
+                return;
+            }
+
+            const inputs = getOrderedInputs();
+            const data = [];
+            inputs.forEach(i => {
+                if (i.type === 'checkbox') data.push(i.checked);
+                else data.push(i.value);
+            });
+
+            const summaries = {
+                "Pulp Prep Summary": buildSummary('pulpTable'),
+                "Additives Summary": (buildSummary('pigmentingTable') + '\n' + buildSummary('pigmentTable')).trim(),
+                "Moulds & Deckles Summary": buildSummary('mouldsTable'),
+                "Techniques Summary": buildSummary('techniquesTable'),
+                "Setup Summary": buildSummary('setupTable')
+            };
+
+            const btn = document.querySelector('.save-copy');
+            const originalText = btn.innerText;
+            btn.innerText = 'Copying...';
+
+            const response = await saveProjectToAPI(newName, data, summaries, null);
+            
+            if (btn) btn.innerText = originalText;
+
+            if (response.ok) {
+                alert('New copy created successfully!');
+                await fetchProjects();
+                loadProject(newName);
+                renderProjects();
+            } else {
+                alert('Failed to copy project.');
+            }
         }
         
         async function deleteProject() {
